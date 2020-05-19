@@ -10,7 +10,7 @@ import javax.swing.*;
 
 /**
  *
- * @author ishanmadan
+ * @author ishanmadan & shreyaparikh
  */
 public class Pacman {
 
@@ -18,20 +18,19 @@ public class Pacman {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ImageIcon icon = new ImageIcon("assets/cherries.png");
-        // JLabel label = new JLabel(System.getProperty("user.dir"));
-        JLabel label = new JLabel(icon);
-        frame.add(label);
-        frame.setLocation(new Point(100, 100));
-        frame.setSize(new Dimension(615, 785 + 22)); */
+        Toolkit defToolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = defToolkit.getScreenSize();
+        Dimension size = DrawCanvas.GAME_SIZE;
+        Point location = new Point((int)(screenSize.getWidth() - size.getWidth()) / 2,(int)(screenSize.getHeight() - size.getHeight()) / 2);
 
         JFrame frame = new GraphicsOptions();
-        frame.setTitle("Pacman");
         frame.pack();
+        frame.setTitle("Pacman");
+        frame.setSize(size);
+        frame.setPreferredSize(size);
+        frame.setLocation(location);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.requestFocus();
     }
