@@ -16,7 +16,7 @@ public class GraphicsOptions extends JFrame {
 
         assets = new Assets();
 
-        this.setIconImage(assets.image_player_small_mouth);
+        this.setIconImage(assets.image_player_small_mouth_left);
 
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
@@ -27,17 +27,13 @@ public class GraphicsOptions extends JFrame {
             @Override
             public void keyPressed(KeyEvent evt) {
                 if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
-                    // canvas.changeX1(-10);
-                    canvas.repaint();
+                    canvas.shiftPlayerLeft();
                 } else if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    // canvas.changeX1(10);
-                    canvas.repaint();
+                    canvas.shiftPlayerRight();
                 } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
-                    // canvas.changeY1(-10);
-                    canvas.repaint();
+                    canvas.shiftPlayerUp();
                 } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
-                    // canvas.changeY1(10);
-                    canvas.repaint();
+                    canvas.shiftPlayerDown();
                 }
             }
         });
