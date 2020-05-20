@@ -6,50 +6,50 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Assets {
-    private final static BufferedImage DEFAULT_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    private final BufferedImage DEFAULT_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
     
-    public static BufferedImage image_player_full_circle = DEFAULT_IMAGE;
-    public static BufferedImage image_player_small_mouth = DEFAULT_IMAGE;
-    public static BufferedImage image_player_large_mouth = DEFAULT_IMAGE;
+    public BufferedImage image_player_full_circle = DEFAULT_IMAGE;
+    public BufferedImage image_player_small_mouth = DEFAULT_IMAGE;
+    public BufferedImage image_player_large_mouth = DEFAULT_IMAGE;
     
-    public static BufferedImage image_cherries = DEFAULT_IMAGE;
-    public static BufferedImage image_background = DEFAULT_IMAGE;
+    public BufferedImage image_cherries = DEFAULT_IMAGE;
+    public BufferedImage image_background = DEFAULT_IMAGE;
     
-    public static BufferedImage image_red_left_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_left_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_right_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_right_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_up_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_up_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_down_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_red_down_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_red_left_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_red_left_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_red_right_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_red_right_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_red_up_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_red_up_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_red_down_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_red_down_body2 = DEFAULT_IMAGE;
     
-    public static BufferedImage image_cyan_left_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_left_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_right_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_right_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_up_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_up_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_down_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_cyan_down_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_left_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_left_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_right_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_right_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_up_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_up_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_down_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_cyan_down_body2 = DEFAULT_IMAGE;
     
-    public static BufferedImage image_pink_left_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_left_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_right_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_right_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_up_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_up_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_down_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_pink_down_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_left_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_left_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_right_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_right_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_up_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_up_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_down_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_pink_down_body2 = DEFAULT_IMAGE;
     
-    public static BufferedImage image_yellow_left_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_left_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_right_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_right_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_up_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_up_body2 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_down_body1 = DEFAULT_IMAGE;
-    public static BufferedImage image_yellow_down_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_left_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_left_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_right_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_right_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_up_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_up_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_down_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_yellow_down_body2 = DEFAULT_IMAGE;
 
     public Assets() {
         try {
