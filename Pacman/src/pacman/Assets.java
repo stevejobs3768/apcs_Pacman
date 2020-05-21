@@ -70,7 +70,7 @@ public class Assets {
             image_player_large_mouth_down = ImageIO.read(getClass().getResource("assets/player/player_large_mouth_down.png"));
 
             image_cherries = ImageIO.read(getClass().getResource("assets/cherries.png"));
-            image_background = ImageIO.read(getClass().getResource("assets/background2.png"));
+            image_background = ImageIO.read(getClass().getResource("assets/background3.png"));
 
             image_red_left_body1 = ImageIO.read(getClass().getResource("assets/red/red_left_body1.png"));
             image_red_left_body2 = ImageIO.read(getClass().getResource("assets/red/red_left_body2.png"));
