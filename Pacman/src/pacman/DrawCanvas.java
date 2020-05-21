@@ -12,7 +12,7 @@ public class DrawCanvas extends JPanel {
 
     public static final int PLAYER_DIMENSION = 32;
 
-    private Point player_position = new Point((int)((GAME_SIZE.getWidth() - PLAYER_DIMENSION) / 2), (int)((GAME_SIZE.getHeight() - PLAYER_DIMENSION) * 1.51 / 2));
+    private Point player_position = new Point((int)(GAME_SIZE.getWidth() / 2), (int)(GAME_SIZE.getHeight() * 1.49 / 2));
     
     private BufferedImage backgroundImage;
     private Assets assets = new Assets();
@@ -31,7 +31,8 @@ public class DrawCanvas extends JPanel {
 
     private boolean current_large_mouth = false;
 
-    private final int SHIFT = 10;
+    private final int SHIFT = 5;
+    private final int THRESHOLD = 5;
 
     private boolean up = false;
     private boolean down = false;
@@ -80,6 +81,8 @@ public class DrawCanvas extends JPanel {
     {79, 584}, {144, 584}, {210, 584}, {406, 584}, {471, 584}, {536, 584}, 
     {35, 650}, {275, 650}, {340, 650}, {580, 650}};
 
+    private int[] currentCoords = new int[2];
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -87,128 +90,72 @@ public class DrawCanvas extends JPanel {
         backgroundImage = GraphicsOptions.resize(assets.image_background, (int) GAME_SIZE.getWidth(), (int) GAME_SIZE.getHeight());
         
         g.drawImage(backgroundImage, 0, 0, this);
-        g.drawImage(current_player, (int) player_position.getX(), (int) player_position.getY(), this);
+        g.drawImage(current_player, (int) player_position.getX() - PLAYER_DIMENSION/2, (int) player_position.getY() - PLAYER_DIMENSION/2, this);
 
-        g.setColor(Color.red);
+        System.out.println(player_position);
 
-        // dots at every intersection of paths
-
-        /* g.fillOval(35-5, 105-5, 10, 10);
-        g.fillOval(35-5, 192-5, 10, 10);
-        g.fillOval(35-5, 257-5, 10, 10);
-        g.fillOval(35-5, 520-5, 10, 10);
-        g.fillOval(35-5, 584-5, 10, 10);
-        g.fillOval(35-5, 650-5, 10, 10);
-        g.fillOval(35-5, 715-5, 10, 10);
-
-        g.fillOval(79-5, 584-5, 10, 10);
-        g.fillOval(79-5, 650-5, 10, 10);
-
-        g.fillOval(144-5, 105-5, 10, 10);
-        g.fillOval(144-5, 192-5, 10, 10);
-        g.fillOval(144-5, 257-5, 10, 10);
-        g.fillOval(144-5, 388-5, 10, 10);
-        g.fillOval(144-5, 520-5, 10, 10);
-        g.fillOval(144-5, 584-5, 10, 10);
-        g.fillOval(144-5, 650-5, 10, 10);
-
-        g.fillOval(210-5, 192-5, 10, 10);
-        g.fillOval(210-5, 257-5, 10, 10);
-        g.fillOval(210-5, 323-5, 10, 10);
-        g.fillOval(210-5, 388-5, 10, 10);
-        g.fillOval(210-5, 454-5, 10, 10);
-        g.fillOval(210-5, 520-5, 10, 10);
-        g.fillOval(210-5, 584-5, 10, 10);
-        g.fillOval(210-5, 650-5, 10, 10);
+        currentCoords[0] = 0;
+        currentCoords[1] = 0;
         
-        g.fillOval(275-5, 105-5, 10, 10);
-        g.fillOval(275-5, 192-5, 10, 10);
-        g.fillOval(275-5, 257-5, 10, 10);
-        g.fillOval(275-5, 323-5, 10, 10);
-        g.fillOval(275-5, 454-5, 10, 10);
-        g.fillOval(275-5, 520-5, 10, 10);
-        g.fillOval(275-5, 584-5, 10, 10);
-        g.fillOval(275-5, 650-5, 10, 10);
-        g.fillOval(275-5, 715-5, 10, 10);
-        
-        g.fillOval(340-5, 105-5, 10, 10);
-        g.fillOval(340-5, 192-5, 10, 10);
-        g.fillOval(340-5, 257-5, 10, 10);
-        g.fillOval(340-5, 323-5, 10, 10);
-        g.fillOval(340-5, 454-5, 10, 10);
-        g.fillOval(340-5, 520-5, 10, 10);
-        g.fillOval(340-5, 584-5, 10, 10);
-        g.fillOval(340-5, 650-5, 10, 10);
-        g.fillOval(340-5, 715-5, 10, 10);
-        
-        g.fillOval(406-5, 192-5, 10, 10);
-        g.fillOval(406-5, 257-5, 10, 10);
-        g.fillOval(406-5, 323-5, 10, 10);
-        g.fillOval(406-5, 388-5, 10, 10);
-        g.fillOval(406-5, 454-5, 10, 10);
-        g.fillOval(406-5, 520-5, 10, 10);
-        g.fillOval(406-5, 584-5, 10, 10);
-        g.fillOval(406-5, 650-5, 10, 10);
-        
-        g.fillOval(471-5, 105-5, 10, 10);
-        g.fillOval(471-5, 192-5, 10, 10);
-        g.fillOval(471-5, 257-5, 10, 10);
-        g.fillOval(471-5, 388-5, 10, 10);
-        g.fillOval(471-5, 520-5, 10, 10);
-        g.fillOval(471-5, 584-5, 10, 10);
-        g.fillOval(471-5, 650-5, 10, 10);
-
-        g.fillOval(536-5, 584-5, 10, 10);
-        g.fillOval(536-5, 650-5, 10, 10);
-        
-        g.fillOval(580-5, 105-5, 10, 10);
-        g.fillOval(580-5, 192-5, 10, 10);
-        g.fillOval(580-5, 257-5, 10, 10);
-        g.fillOval(580-5, 520-5, 10, 10);
-        g.fillOval(580-5, 584-5, 10, 10);
-        g.fillOval(580-5, 650-5, 10, 10);
-        g.fillOval(580-5, 715-5, 10, 10); */
+        if (up || down || left || right) {
+            upAvail = false;
+            downAvail = false;
+            leftAvail = false;
+            rightAvail = false;
+        }
         
         g.setColor(Color.green);
         for (int[] coords : leftPoints) {
             g.fillOval(coords[0]-10, coords[1]-5, 10, 10);
+            if (inRange(coords, player_position.getX(), player_position.getY())) {
+                leftAvail = true;
+                currentCoords[0] = coords[0];
+                currentCoords[1] = coords[1];
+            }
         }
         
         g.setColor(Color.orange);
         for (int[] coords : upPoints) {
             g.fillOval(coords[0]-5, coords[1]-10, 10, 10);
+            if (inRange(coords, player_position.getX(), player_position.getY())) {
+                upAvail = true;
+                currentCoords[0] = coords[0];
+                currentCoords[1] = coords[1];
+            }
         }
         
         g.setColor(Color.cyan);
         for (int[] coords : rightPoints) {
             g.fillOval(coords[0], coords[1]-5, 10, 10);
+            if (inRange(coords, player_position.getX(), player_position.getY())) {
+                rightAvail = true;
+                currentCoords[0] = coords[0];
+                currentCoords[1] = coords[1];
+            }
         }
-
+        
         g.setColor(Color.magenta);
         for (int[] coords : downPoints) {
             g.fillOval(coords[0]-5, coords[1], 10, 10);
+            if (inRange(coords, player_position.getX(), player_position.getY())) {
+                downAvail = true;
+                currentCoords[0] = coords[0];
+                currentCoords[1] = coords[1];
+            }
         }
-
-        /* g.fillRect(0, 282, 120, 81);
-        g.fillRect(0, 70, 11, 212);
-        g.fillRect(0, 70, 615, 11);
-        g.fillRect(604, 70, 11, 212);
-        g.fillRect(496, 282, 120, 82); */
-
-        /* g.fillOval(0, 363, 5, 5);
-        g.drawLine(0, 363, 120, 363);
-        g.fillOval(120, 363, 5, 5);
-        g.drawLine(120, 363, 120, 282);
-        g.fillOval(120, 282, 5, 5);
-        g.drawLine(120, 282, 11, 282);
-        g.fillOval(11, 282, 5, 5);
-        g.drawLine(11, 282, 11, 81);
-        g.fillOval(11, 81, 5, 5);
-        g.drawLine(11, 81, 299, 81);
-        g.fillOval(299, 81, 5, 5);*/
-
-        // g.fillOval(0, 412, 5, 5);
-
+        
+        if (!leftAvail && !rightAvail && !upAvail && !downAvail) {
+            if (up || down) {
+                upAvail = true;
+                downAvail = true;
+            } else if (left || right) {
+                leftAvail = true;
+                rightAvail = true;
+            }
+        }
+        
+        System.out.println(upAvail + " " + downAvail + " " + leftAvail + " " + rightAvail);
+        
         if (current_large_mouth) {
             if (up) {
                 current_player = small_mouth_up;
@@ -233,16 +180,20 @@ public class DrawCanvas extends JPanel {
             current_large_mouth = true;
         }
 
-        if (up) {
+        if (up && upAvail) {
             player_position.translate(0, -1 * SHIFT);
-        } else if (down) {
+        } else if (down && downAvail) {
             player_position.translate(0, SHIFT);
-        } else if (left) {
+        } else if (left && leftAvail) {
             player_position.translate(-1 * SHIFT, 0);
-        } else if (right) {
+        } else if (right && rightAvail) {
             player_position.translate(SHIFT, 0);
         }
         repaint();
+    }
+
+    public boolean inRange(int[] coords, double x, double y) {
+        return (x > coords[0] - THRESHOLD) && (x < coords[0] + THRESHOLD) && (y > coords[1] - THRESHOLD) && (y < coords[1] + THRESHOLD);
     }
 
     public void shiftPlayerUp() {
@@ -251,6 +202,10 @@ public class DrawCanvas extends JPanel {
             down = false;
             left = false;
             right = false;
+            
+            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+                player_position.setLocation(currentCoords[0], currentCoords[1]);
+            }
         }
     }
     
@@ -260,6 +215,10 @@ public class DrawCanvas extends JPanel {
             down = true;
             left = false;
             right = false;
+
+            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+                player_position.setLocation(currentCoords[0], currentCoords[1]);
+            }
         }
     }
     
@@ -269,6 +228,10 @@ public class DrawCanvas extends JPanel {
             down = false;
             left = true;
             right = false;
+            
+            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+                player_position.setLocation(currentCoords[0], currentCoords[1]);
+            }
         }
     }
     
@@ -278,6 +241,10 @@ public class DrawCanvas extends JPanel {
             down = false;
             left = false;
             right = true;
+            
+            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+                player_position.setLocation(currentCoords[0], currentCoords[1]);
+            }
         }
     }
 
