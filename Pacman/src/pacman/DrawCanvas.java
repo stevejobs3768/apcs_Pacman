@@ -104,9 +104,9 @@ public class DrawCanvas extends JPanel {
             rightAvail = false;
         }
         
-        g.setColor(Color.green);
+        // g.setColor(Color.green);
         for (int[] coords : leftPoints) {
-            g.fillOval(coords[0]-10, coords[1]-5, 10, 10);
+            // g.fillOval(coords[0]-10, coords[1]-5, 10, 10);
             if (inRange(coords, player_position.getX(), player_position.getY())) {
                 leftAvail = true;
                 currentCoords[0] = coords[0];
@@ -114,9 +114,9 @@ public class DrawCanvas extends JPanel {
             }
         }
         
-        g.setColor(Color.orange);
+        // g.setColor(Color.orange);
         for (int[] coords : upPoints) {
-            g.fillOval(coords[0]-5, coords[1]-10, 10, 10);
+            // g.fillOval(coords[0]-5, coords[1]-10, 10, 10);
             if (inRange(coords, player_position.getX(), player_position.getY())) {
                 upAvail = true;
                 currentCoords[0] = coords[0];
@@ -124,9 +124,9 @@ public class DrawCanvas extends JPanel {
             }
         }
         
-        g.setColor(Color.cyan);
+        // g.setColor(Color.cyan);
         for (int[] coords : rightPoints) {
-            g.fillOval(coords[0], coords[1]-5, 10, 10);
+            // g.fillOval(coords[0], coords[1]-5, 10, 10);
             if (inRange(coords, player_position.getX(), player_position.getY())) {
                 rightAvail = true;
                 currentCoords[0] = coords[0];
@@ -134,9 +134,9 @@ public class DrawCanvas extends JPanel {
             }
         }
         
-        g.setColor(Color.magenta);
+        // g.setColor(Color.magenta);
         for (int[] coords : downPoints) {
-            g.fillOval(coords[0]-5, coords[1], 10, 10);
+            // g.fillOval(coords[0]-5, coords[1], 10, 10);
             if (inRange(coords, player_position.getX(), player_position.getY())) {
                 downAvail = true;
                 currentCoords[0] = coords[0];
@@ -203,7 +203,7 @@ public class DrawCanvas extends JPanel {
             left = false;
             right = false;
             
-            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+            if (currentCoords[0] != 0 && currentCoords[1] != 0 && player_position.getX() != currentCoords[0] && player_position.getY() != currentCoords[1]) {
                 player_position.setLocation(currentCoords[0], currentCoords[1]);
             }
         }
@@ -216,7 +216,7 @@ public class DrawCanvas extends JPanel {
             left = false;
             right = false;
 
-            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+            if (currentCoords[0] != 0 && currentCoords[1] != 0 && player_position.getX() != currentCoords[0] && player_position.getY() != currentCoords[1]) {
                 player_position.setLocation(currentCoords[0], currentCoords[1]);
             }
         }
@@ -229,7 +229,7 @@ public class DrawCanvas extends JPanel {
             left = true;
             right = false;
             
-            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+            if (currentCoords[0] != 0 && currentCoords[1] != 0 && player_position.getX() != currentCoords[0] && player_position.getY() != currentCoords[1]) {
                 player_position.setLocation(currentCoords[0], currentCoords[1]);
             }
         }
@@ -242,7 +242,7 @@ public class DrawCanvas extends JPanel {
             left = false;
             right = true;
             
-            if (currentCoords[0] != 0 && currentCoords[1] != 0) {
+            if (currentCoords[0] != 0 && currentCoords[1] != 0 && player_position.getX() != currentCoords[0] && player_position.getY() != currentCoords[1]) {
                 player_position.setLocation(currentCoords[0], currentCoords[1]);
             }
         }
