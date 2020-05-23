@@ -2,7 +2,6 @@ package pacman;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -220,7 +219,7 @@ public class DrawCanvas extends JPanel {
                     current_player = full_circle;
                     break;
             }
-            
+
             current_large_mouth = true;
         }
 
@@ -258,7 +257,8 @@ public class DrawCanvas extends JPanel {
     }
 
     public boolean inRange(int[] coords, double x, double y) {
-        return (x > coords[0] - THRESHOLD) && (x < coords[0] + THRESHOLD) && (y > coords[1] - THRESHOLD) && (y < coords[1] + THRESHOLD);
+        return (x > coords[0] - THRESHOLD) && (x < coords[0] + THRESHOLD) && (y > coords[1] - THRESHOLD)
+                && (y < coords[1] + THRESHOLD);
     }
 
     public void shiftPlayerUp() {
@@ -266,19 +266,19 @@ public class DrawCanvas extends JPanel {
             state = 1;
         }
     }
-    
+
     public void shiftPlayerDown() {
         if (downAvail) {
             state = 2;
         }
     }
-    
+
     public void shiftPlayerLeft() {
         if (leftAvail) {
             state = 3;
         }
     }
-    
+
     public void shiftPlayerRight() {
         if (rightAvail) {
             state = 4;
