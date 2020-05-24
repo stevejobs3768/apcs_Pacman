@@ -10,9 +10,9 @@ public class DrawCanvas extends JPanel {
     // I don't really understand what this is, but its absence causes a warning
     private static final long serialVersionUID = 1L;
 
-    public static final Dimension GAME_SIZE = new Dimension(615, 785); // size of playable game window
+    public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
     // size of playable game window + height of title bar
-    public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 22);
+    public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 30 + 22);
     public static final Color CANVAS_BACKGROUND = Color.black; // color of game background
 
     public static final int PLAYER_DIMENSION = 32; // width/height of player
@@ -21,12 +21,17 @@ public class DrawCanvas extends JPanel {
 
     public static final int COUNTER_MAX = 100;
 
+    public static final int CHERRY_CHANCE = 300;
+
     private final Point player_position = new Point((int) (GAME_SIZE.getWidth() / 2),
-            (int) (GAME_SIZE.getHeight() * 1.49 / 2)); // default starting position of player
+            (int) ((GAME_SIZE.getHeight() - 30) * 1.49 / 2)); // default starting position of player
+
+    private final Point cherry_position = new Point((int) (GAME_SIZE.getWidth() / 2),
+            (int) ((GAME_SIZE.getHeight() - 30) * 1.165 / 2)); // spawn position of cherries
 
     private final Assets assets = GraphicsOptions.assets; // class containing all images
     private final BufferedImage backgroundImage = GraphicsOptions.resize(assets.image_background,
-            (int) GAME_SIZE.getWidth(), (int) GAME_SIZE.getHeight()); // drawing of pacman walls, borders, etc
+            (int) GAME_SIZE.getWidth(), (int) GAME_SIZE.getHeight() - 30); // drawing of pacman walls, borders, etc
 
     // various states of the player image
     private final BufferedImage full_circle = GraphicsOptions.resize(assets.image_player_full_circle, PLAYER_DIMENSION,
@@ -47,6 +52,9 @@ public class DrawCanvas extends JPanel {
             PLAYER_DIMENSION, PLAYER_DIMENSION);
     private final BufferedImage large_mouth_down = GraphicsOptions.resize(assets.image_player_large_mouth_down,
             PLAYER_DIMENSION, PLAYER_DIMENSION);
+
+    private final BufferedImage cherries = GraphicsOptions.resize(assets.image_cherries, PLAYER_DIMENSION - 5,
+            PLAYER_DIMENSION - 5);
 
     private final int SHIFT = 5; // each time the code runs, # of pixels the player moves
     private final int THRESHOLD = 4; // how close to an intersection do you have to be to be "at" that intersection
@@ -101,64 +109,37 @@ public class DrawCanvas extends JPanel {
     private final int[][] dots = { { 35, 105 }, { 57, 105 }, { 79, 105 }, { 101, 105 }, { 123, 105 }, { 144, 105 },
             { 166, 105 }, { 188, 105 }, { 210, 105 }, { 232, 105 }, { 254, 105 }, { 275, 105 }, { 340, 105 },
             { 362, 105 }, { 384, 105 }, { 406, 105 }, { 427, 105 }, { 449, 105 }, { 471, 105 }, { 492, 105 },
-            { 514, 105 }, { 536, 105 }, { 558, 105 }, { 580, 105 },
-
-            { 35, 127 }, { 35, 149 }, { 35, 170 }, { 144, 127 }, { 144, 149 }, { 144, 170 }, { 275, 127 }, { 275, 149 },
-            { 275, 170 }, { 340, 127 }, { 340, 149 }, { 340, 170 }, { 471, 127 }, { 471, 149 }, { 471, 170 },
-            { 580, 127 }, { 580, 149 }, { 580, 170 },
-
+            { 514, 105 }, { 536, 105 }, { 558, 105 }, { 580, 105 }, { 35, 127 }, { 35, 149 }, { 35, 170 }, { 144, 127 },
+            { 144, 149 }, { 144, 170 }, { 275, 127 }, { 275, 149 }, { 275, 170 }, { 340, 127 }, { 340, 149 },
+            { 340, 170 }, { 471, 127 }, { 471, 149 }, { 471, 170 }, { 580, 127 }, { 580, 149 }, { 580, 170 },
             { 35, 192 }, { 57, 192 }, { 79, 192 }, { 101, 192 }, { 123, 192 }, { 144, 192 }, { 166, 192 }, { 188, 192 },
             { 210, 192 }, { 232, 192 }, { 254, 192 }, { 275, 192 }, { 297, 192 }, { 319, 192 }, { 340, 192 },
             { 362, 192 }, { 384, 192 }, { 406, 192 }, { 427, 192 }, { 449, 192 }, { 471, 192 }, { 492, 192 },
-            { 514, 192 }, { 536, 192 }, { 558, 192 }, { 580, 192 },
-
-            { 35, 214 }, { 35, 235 }, { 144, 214 }, { 144, 235 }, { 210, 214 }, { 210, 235 }, { 406, 214 },
-            { 406, 235 }, { 471, 214 }, { 471, 235 }, { 580, 214 }, { 580, 235 },
-
-            { 35, 257 }, { 57, 257 }, { 79, 257 }, { 101, 257 }, { 123, 257 }, { 144, 257 }, { 210, 257 }, { 232, 257 },
-            { 254, 257 }, { 275, 257 }, { 340, 257 }, { 362, 257 }, { 384, 257 }, { 406, 257 }, { 471, 257 },
-            { 492, 257 }, { 514, 257 }, { 536, 257 }, { 558, 257 }, { 580, 257 },
-
-            { 144, 279 }, { 144, 301 }, { 471, 279 }, { 471, 301 },
-
-            { 144, 323 }, { 471, 323 },
-
-            { 144, 345 }, { 144, 366 }, { 471, 345 }, { 471, 366 },
-
-            { 144, 388 }, { 471, 388 },
-
-            { 144, 410 }, { 144, 432 }, { 471, 410 }, { 471, 432 },
-
-            { 144, 454 }, { 471, 454 },
-
-            { 144, 476 }, { 144, 498 }, { 471, 476 }, { 471, 498 },
-
-            { 35, 520 }, { 57, 520 }, { 79, 520 }, { 101, 520 }, { 123, 520 }, { 144, 520 }, { 166, 520 }, { 188, 520 },
-            { 210, 520 }, { 232, 520 }, { 254, 520 }, { 275, 520 }, { 340, 520 }, { 362, 520 }, { 384, 520 },
-            { 406, 520 }, { 427, 520 }, { 449, 520 }, { 471, 520 }, { 492, 520 }, { 514, 520 }, { 536, 520 },
-            { 558, 520 }, { 580, 520 },
-
-            { 35, 541 }, { 35, 563 }, { 144, 541 }, { 144, 563 }, { 275, 541 }, { 275, 563 }, { 340, 541 },
-            { 340, 563 }, { 471, 541 }, { 471, 563 }, { 580, 541 }, { 580, 563 },
-
-            { 35, 584 }, { 57, 584 }, { 79, 584 }, { 144, 584 }, { 166, 584 }, { 188, 584 }, { 210, 584 }, { 232, 584 },
-            { 254, 584 }, { 275, 584 }, { 340, 584 }, { 362, 584 }, { 384, 584 }, { 406, 584 }, { 427, 584 },
-            { 449, 584 }, { 471, 584 }, { 536, 584 }, { 558, 584 }, { 580, 584 },
-
-            { 79, 606 }, { 79, 628 }, { 144, 606 }, { 144, 628 }, { 210, 606 }, { 210, 628 }, { 406, 606 },
-            { 406, 628 }, { 471, 606 }, { 471, 628 }, { 536, 606 }, { 536, 628 },
-
-            { 35, 650 }, { 57, 650 }, { 79, 650 }, { 101, 650 }, { 123, 650 }, { 144, 650 }, { 210, 650 }, { 232, 650 },
-            { 254, 650 }, { 275, 650 }, { 340, 650 }, { 362, 650 }, { 384, 650 }, { 406, 650 }, { 471, 650 },
-            { 492, 650 }, { 514, 650 }, { 536, 650 }, { 558, 650 }, { 580, 650 },
-
-            { 35, 672 }, { 35, 693 }, { 275, 672 }, { 275, 693 }, { 340, 672 }, { 340, 693 }, { 580, 672 },
-            { 580, 693 },
-
-            { 35, 715 }, { 57, 715 }, { 79, 715 }, { 101, 715 }, { 123, 715 }, { 144, 715 }, { 166, 715 }, { 188, 715 },
-            { 210, 715 }, { 232, 715 }, { 254, 715 }, { 275, 715 }, { 297, 715 }, { 319, 715 }, { 340, 715 },
-            { 362, 715 }, { 384, 715 }, { 406, 715 }, { 427, 715 }, { 449, 715 }, { 471, 715 }, { 492, 715 },
-            { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 }, };
+            { 514, 192 }, { 536, 192 }, { 558, 192 }, { 580, 192 }, { 35, 214 }, { 35, 235 }, { 144, 214 },
+            { 144, 235 }, { 210, 214 }, { 210, 235 }, { 406, 214 }, { 406, 235 }, { 471, 214 }, { 471, 235 },
+            { 580, 214 }, { 580, 235 }, { 35, 257 }, { 57, 257 }, { 79, 257 }, { 101, 257 }, { 123, 257 }, { 144, 257 },
+            { 210, 257 }, { 232, 257 }, { 254, 257 }, { 275, 257 }, { 340, 257 }, { 362, 257 }, { 384, 257 },
+            { 406, 257 }, { 471, 257 }, { 492, 257 }, { 514, 257 }, { 536, 257 }, { 558, 257 }, { 580, 257 },
+            { 144, 279 }, { 144, 301 }, { 471, 279 }, { 471, 301 }, { 144, 323 }, { 471, 323 }, { 144, 345 },
+            { 144, 366 }, { 471, 345 }, { 471, 366 }, { 144, 388 }, { 471, 388 }, { 144, 410 }, { 144, 432 },
+            { 471, 410 }, { 471, 432 }, { 144, 454 }, { 471, 454 }, { 144, 476 }, { 144, 498 }, { 471, 476 },
+            { 471, 498 }, { 35, 520 }, { 57, 520 }, { 79, 520 }, { 101, 520 }, { 123, 520 }, { 144, 520 }, { 166, 520 },
+            { 188, 520 }, { 210, 520 }, { 232, 520 }, { 254, 520 }, { 275, 520 }, { 340, 520 }, { 362, 520 },
+            { 384, 520 }, { 406, 520 }, { 427, 520 }, { 449, 520 }, { 471, 520 }, { 492, 520 }, { 514, 520 },
+            { 536, 520 }, { 558, 520 }, { 580, 520 }, { 35, 541 }, { 35, 563 }, { 144, 541 }, { 144, 563 },
+            { 275, 541 }, { 275, 563 }, { 340, 541 }, { 340, 563 }, { 471, 541 }, { 471, 563 }, { 580, 541 },
+            { 580, 563 }, { 35, 584 }, { 57, 584 }, { 79, 584 }, { 144, 584 }, { 166, 584 }, { 188, 584 }, { 210, 584 },
+            { 232, 584 }, { 254, 584 }, { 275, 584 }, { 340, 584 }, { 362, 584 }, { 384, 584 }, { 406, 584 },
+            { 427, 584 }, { 449, 584 }, { 471, 584 }, { 536, 584 }, { 558, 584 }, { 580, 584 }, { 79, 606 },
+            { 79, 628 }, { 144, 606 }, { 144, 628 }, { 210, 606 }, { 210, 628 }, { 406, 606 }, { 406, 628 },
+            { 471, 606 }, { 471, 628 }, { 536, 606 }, { 536, 628 }, { 35, 650 }, { 57, 650 }, { 79, 650 }, { 101, 650 },
+            { 123, 650 }, { 144, 650 }, { 210, 650 }, { 232, 650 }, { 254, 650 }, { 275, 650 }, { 340, 650 },
+            { 362, 650 }, { 384, 650 }, { 406, 650 }, { 471, 650 }, { 492, 650 }, { 514, 650 }, { 536, 650 },
+            { 558, 650 }, { 580, 650 }, { 35, 672 }, { 35, 693 }, { 275, 672 }, { 275, 693 }, { 340, 672 },
+            { 340, 693 }, { 580, 672 }, { 580, 693 }, { 35, 715 }, { 57, 715 }, { 79, 715 }, { 101, 715 }, { 123, 715 },
+            { 144, 715 }, { 166, 715 }, { 188, 715 }, { 210, 715 }, { 232, 715 }, { 254, 715 }, { 275, 715 },
+            { 297, 715 }, { 319, 715 }, { 340, 715 }, { 362, 715 }, { 384, 715 }, { 406, 715 }, { 427, 715 },
+            { 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 }, };
 
     private ArrayList<int[]> hiddenDots = new ArrayList<int[]>();
 
@@ -167,6 +148,11 @@ public class DrawCanvas extends JPanel {
     private int[] currentCoords = { 0, 0 };
 
     private int score = 0;
+
+    private int cherryCount = 0;
+    private boolean showCherry = false;
+
+    private final Font font = assets.pacmanFont;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -255,12 +241,28 @@ public class DrawCanvas extends JPanel {
         for (int[] coords : dots) {
             if (hiddenDots.indexOf(coords) < 0) {
                 g.fillOval(coords[0] - 3, coords[1] - 3, 6, 6);
+
+                if (inRange(coords, player_position)) {
+                    score++;
+                    hiddenDots.add(coords);
+                }
             }
 
+        }
+
+        if (showCherry) {
+            g.drawImage(cherries, (int) cherry_position.getX() - PLAYER_DIMENSION / 2,
+                    (int) cherry_position.getY() - PLAYER_DIMENSION / 2, this);
+            
+            int[] coords = {(int) cherry_position.getX(), (int) cherry_position.getY()};
+
             if (inRange(coords, player_position)) {
-                score++;
-                hiddenDots.add(coords);
+                score += 20;
+                cherryCount++;
+                showCherry = false;
             }
+        } else if (state > 0) {
+            showCherry = 0 == (int) (Math.random() * CHERRY_CHANCE);
         }
 
         // if the player is not at any intersection
@@ -377,6 +379,16 @@ public class DrawCanvas extends JPanel {
         } catch (InterruptedException e) { // Thread.sleep throws an InterruptedException so this is necessary
             e.printStackTrace();
         }
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setFont(font);
+        FontMetrics fontMetrics = g2.getFontMetrics();
+        String s = "" + score * 10;
+        String c = "" + cherryCount;
+        g2.drawString(c, (int)CANVAS_SIZE.getWidth() - fontMetrics.stringWidth(c) - 10, (int)GAME_SIZE.getHeight() - 35);
+        g2.drawImage(GraphicsOptions.resize(assets.image_cherries, 25, 25), (int)CANVAS_SIZE.getWidth() - fontMetrics.stringWidth(c) - 43, (int)GAME_SIZE.getHeight() - 56, this);
+        g2.drawString(s, 100 - fontMetrics.stringWidth(s), 50);
 
         // call the entire paintComponent function again (causes an infinite loop of
         // gameplay)

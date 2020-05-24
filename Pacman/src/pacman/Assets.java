@@ -1,5 +1,7 @@
 package pacman;
 
+import java.awt.Font;
+import java.io.File;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -60,6 +62,8 @@ public class Assets {
     public BufferedImage image_yellow_down_body1 = DEFAULT_IMAGE;
     public BufferedImage image_yellow_down_body2 = DEFAULT_IMAGE;
 
+    public Font pacmanFont;
+
     public Assets() {
         try {
             image_player_full_circle = ImageIO.read(getClass().getResource("assets/player/player_full_circle.png"));
@@ -110,11 +114,14 @@ public class Assets {
             image_yellow_up_body2 = ImageIO.read(getClass().getResource("assets/yellow/yellow_up_body2.png"));
             image_yellow_down_body1 = ImageIO.read(getClass().getResource("assets/yellow/yellow_down_body1.png"));
             image_yellow_down_body2 = ImageIO.read(getClass().getResource("assets/yellow/yellow_down_body2.png"));
+
+            pacmanFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("assets/Emulogic.ttf").openStream());
+            pacmanFont = pacmanFont.deriveFont(Font.PLAIN, 20);
         } catch (IOException e) {
             System.err.println("IOException ERROR: " + e);
             System.exit(-1);
         } catch (Exception e) {
-            System.err.println("ERROR READING IMAGES: " + e);
+            System.err.println("ERROR READING FILES: " + e);
             System.exit(-1);
         }
     }
