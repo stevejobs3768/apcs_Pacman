@@ -7,12 +7,16 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class GraphicsOptions extends JFrame {
+     // I don't really understand what this is, but its absence causes a warning
+    private static final long serialVersionUID = 1L;
+
+    public static Assets assets; // image assets
+    
     private DrawCanvas canvas; // gameplay object
-    private Assets assets; // image assets
 
     public GraphicsOptions() {
         canvas = new DrawCanvas();
-        canvas.setPreferredSize(canvas.GAME_SIZE);
+        canvas.setPreferredSize(DrawCanvas.GAME_SIZE);
 
         assets = new Assets();
 

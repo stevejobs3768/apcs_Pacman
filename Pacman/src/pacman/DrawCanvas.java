@@ -6,6 +6,9 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class DrawCanvas extends JPanel {
+    // I don't really understand what this is, but its absence causes a warning
+    private static final long serialVersionUID = 1L;
+    
     public static final Dimension GAME_SIZE = new Dimension(615, 785); // size of playable game window
     // size of playable game window + height of title bar
     public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 22);
@@ -16,7 +19,7 @@ public class DrawCanvas extends JPanel {
     private final Point player_position = new Point((int) (GAME_SIZE.getWidth() / 2),
             (int) (GAME_SIZE.getHeight() * 1.49 / 2)); // default starting position of player
 
-    private final Assets assets = new Assets(); // class containing all images
+    private final Assets assets = GraphicsOptions.assets; // class containing all images
     private final BufferedImage backgroundImage = GraphicsOptions.resize(assets.image_background,
             (int) GAME_SIZE.getWidth(), (int) GAME_SIZE.getHeight()); // drawing of pacman walls, borders, etc
 
