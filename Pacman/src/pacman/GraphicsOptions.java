@@ -7,18 +7,16 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class GraphicsOptions extends JFrame {
-     // I don't really understand what this is, but its absence causes a warning
+    // I don't really understand what this is, but its absence causes a warning
     private static final long serialVersionUID = 1L;
 
-    public static Assets assets; // image assets
-    
+    public static final Assets assets = new Assets(); // image assets
+
     private DrawCanvas canvas; // gameplay object
 
     public GraphicsOptions() {
         canvas = new DrawCanvas();
         canvas.setPreferredSize(DrawCanvas.GAME_SIZE);
-
-        assets = new Assets();
 
         // this is supposed to control the app icon but for some reason it doesn't work?
         // idk why but it's not that important
