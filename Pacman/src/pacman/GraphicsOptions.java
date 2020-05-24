@@ -16,17 +16,18 @@ public class GraphicsOptions extends JFrame {
 
     public GraphicsOptions() {
         canvas = new DrawCanvas();
-        canvas.setPreferredSize(DrawCanvas.GAME_SIZE);
+        canvas.setPreferredSize(DrawCanvas.CANVAS_SIZE);
 
         // this is supposed to control the app icon but for some reason it doesn't work?
         // idk why but it's not that important
         this.setIconImage(assets.image_player_small_mouth_left);
 
         Container cp = getContentPane(); // gets the contents of the JFrame
-        cp.setLayout(new BorderLayout()); // uses a BorderLayout to organize the contents of the JFrame
+        cp.setLayout(new FlowLayout()); // uses a BorderLayout to organize the contents of the JFrame
         // adds the canvas to the center of the JFrame (canvas is the same size as
         // JFrame so it doesn't really make a difference where it's placed, but if they
         // were different sizes this would matter more)
+        cp.setBackground(DrawCanvas.CANVAS_BACKGROUND);
         cp.add(canvas, BorderLayout.CENTER);
 
         addKeyListener(new KeyAdapter() { // get keys pressed

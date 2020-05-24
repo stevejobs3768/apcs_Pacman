@@ -20,7 +20,7 @@ public class Pacman {
     public static void main(String[] args) {
         Toolkit defToolkit = Toolkit.getDefaultToolkit(); // used to get screenSize
         Dimension screenSize = defToolkit.getScreenSize(); // gets size of the whole screen
-        Dimension size = DrawCanvas.GAME_SIZE; // gets size of the window
+        Dimension size = DrawCanvas.CANVAS_SIZE; // gets size of the window
         // defines the top left corner of the Pacman window such that the window is in
         // the exact center of the screen
         Point location = new Point((int) (screenSize.getWidth() - size.getWidth()) / 2,

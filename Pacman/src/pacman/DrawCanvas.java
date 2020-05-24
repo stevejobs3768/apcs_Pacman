@@ -12,7 +12,7 @@ public class DrawCanvas extends JPanel {
 
     public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
     // size of playable game window + height of title bar
-    public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 30 + 22);
+    public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
     public static final Color CANVAS_BACKGROUND = Color.black; // color of game background
 
     public static final int PLAYER_DIMENSION = 32; // width/height of player
@@ -386,8 +386,8 @@ public class DrawCanvas extends JPanel {
         FontMetrics fontMetrics = g2.getFontMetrics();
         String s = "" + score * 10;
         String c = "" + cherryCount;
-        g2.drawString(c, (int)CANVAS_SIZE.getWidth() - fontMetrics.stringWidth(c) - 10, (int)GAME_SIZE.getHeight() - 35);
-        g2.drawImage(GraphicsOptions.resize(assets.image_cherries, 25, 25), (int)CANVAS_SIZE.getWidth() - fontMetrics.stringWidth(c) - 43, (int)GAME_SIZE.getHeight() - 56, this);
+        g2.drawString(c, (int)GAME_SIZE.getWidth() - fontMetrics.stringWidth(c) - 10, (int)GAME_SIZE.getHeight() - 35);
+        g2.drawImage(GraphicsOptions.resize(assets.image_cherries, 25, 25), (int)GAME_SIZE.getWidth() - fontMetrics.stringWidth(c) - 43, (int)GAME_SIZE.getHeight() - 56, this);
         g2.drawString(s, 100 - fontMetrics.stringWidth(s), 50);
 
         // call the entire paintComponent function again (causes an infinite loop of
