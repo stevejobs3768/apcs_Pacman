@@ -324,20 +324,16 @@ public class DrawCanvas extends JPanel {
         }
 
         if (attemptedState == 1 && upAvail) { // if user wants to go up and up is available
-            // player_position.translate(0, -1 * SHIFT); // shift up
             state = attemptedState;
         } else if (attemptedState == 2 && downAvail) { // same for down
-            // player_position.translate(0, SHIFT);
             state = attemptedState;
         } else if (attemptedState == 3 && leftAvail) { // same for left
-            // player_position.translate(-1 * SHIFT, 0);
             state = attemptedState;
         } else if (attemptedState == 4 && rightAvail) { // same for right
-            // player_position.translate(SHIFT, 0);
             state = attemptedState;
         }
 
-        if (state == 1 && upAvail) { // if user wants to go up and up is available
+        if (state == 1 && upAvail) { // if player will be going up and up is available
             player_position.translate(0, -1 * SHIFT); // shift up
         } else if (state == 2 && downAvail) { // same for down
             player_position.translate(0, SHIFT);
