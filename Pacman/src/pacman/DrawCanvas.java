@@ -2,9 +2,8 @@ package pacman;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.util.ArrayList;
-
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class DrawCanvas extends JPanel {
     // I don't really understand what this is, but its absence causes a warning
@@ -12,7 +11,8 @@ public class DrawCanvas extends JPanel {
 
     public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
     // size of playable game window + height of title bar
-    public static final Dimension CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
+    public static final Dimension MAC_CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
+    public static final Dimension WINDOWS_CANVAS_SIZE = new Dimension(615, 785 + 30 + 25);
     public static final Color CANVAS_BACKGROUND = Color.black; // color of game background
 
     public static final int PLAYER_DIMENSION = 32; // width/height of player

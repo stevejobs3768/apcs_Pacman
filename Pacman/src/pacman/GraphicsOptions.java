@@ -15,8 +15,16 @@ public class GraphicsOptions extends JFrame {
     private DrawCanvas canvas; // gameplay object
 
     public GraphicsOptions() {
+    
+        System.out.println(System.getProperty("os.name")); 
+
         canvas = new DrawCanvas();
-        canvas.setPreferredSize(DrawCanvas.CANVAS_SIZE);
+
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            canvas.setPreferredSize(DrawCanvas.WINDOWS_CANVAS_SIZE);
+        } else {
+            canvas.setPreferredSize(DrawCanvas.MAC_CANVAS_SIZE);
+        }
 
         // this is supposed to control the app icon but for some reason it doesn't work?
         // idk why but it's not that important
