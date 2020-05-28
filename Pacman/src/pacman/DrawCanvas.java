@@ -13,7 +13,7 @@ public class DrawCanvas extends JPanel {
     // size of playable game window + height of title bar
     public static final Dimension MAC_CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
     public static final Dimension WINDOWS_CANVAS_SIZE = new Dimension(615, 785 + 30 + 25);
-    
+
     public static final Color CANVAS_BACKGROUND = Color.black; // color of game background
 
     public static final int PLAYER_DIMENSION = 32; // width/height of player
@@ -69,49 +69,90 @@ public class DrawCanvas extends JPanel {
     private final BufferedImage cherries = GraphicsOptions.resize(assets.image_cherries, PLAYER_DIMENSION - 5,
             PLAYER_DIMENSION - 5);
 
-    private final BufferedImage red_left_body = GraphicsOptions.resize(assets.image_red_left_body2, PLAYER_DIMENSION,
+    private final BufferedImage red_left1 = GraphicsOptions.resize(assets.image_red_left_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage pink_left_body = GraphicsOptions.resize(assets.image_pink_left_body2, PLAYER_DIMENSION,
+    private final BufferedImage pink_left1 = GraphicsOptions.resize(assets.image_pink_left_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage cyan_left_body = GraphicsOptions.resize(assets.image_cyan_left_body2, PLAYER_DIMENSION,
+    private final BufferedImage cyan_left1 = GraphicsOptions.resize(assets.image_cyan_left_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage yellow_left_body = GraphicsOptions.resize(assets.image_yellow_left_body2,
-            PLAYER_DIMENSION, PLAYER_DIMENSION);
-
-    private final BufferedImage red_right_body = GraphicsOptions.resize(assets.image_red_right_body2, PLAYER_DIMENSION,
-            PLAYER_DIMENSION);
-    private final BufferedImage pink_right_body = GraphicsOptions.resize(assets.image_pink_right_body2,
-            PLAYER_DIMENSION, PLAYER_DIMENSION);
-    private final BufferedImage cyan_right_body = GraphicsOptions.resize(assets.image_cyan_right_body2,
-            PLAYER_DIMENSION, PLAYER_DIMENSION);
-    private final BufferedImage yellow_right_body = GraphicsOptions.resize(assets.image_yellow_right_body2,
-            PLAYER_DIMENSION, PLAYER_DIMENSION);
-
-    private final BufferedImage red_up_body = GraphicsOptions.resize(assets.image_red_up_body2, PLAYER_DIMENSION,
-            PLAYER_DIMENSION);
-    private final BufferedImage pink_up_body = GraphicsOptions.resize(assets.image_pink_up_body2, PLAYER_DIMENSION,
-            PLAYER_DIMENSION);
-    private final BufferedImage cyan_up_body = GraphicsOptions.resize(assets.image_cyan_up_body2, PLAYER_DIMENSION,
-            PLAYER_DIMENSION);
-    private final BufferedImage yellow_up_body = GraphicsOptions.resize(assets.image_yellow_up_body2, PLAYER_DIMENSION,
+    private final BufferedImage yellow_left1 = GraphicsOptions.resize(assets.image_yellow_left_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
 
-    private final BufferedImage red_down_body = GraphicsOptions.resize(assets.image_red_down_body2, PLAYER_DIMENSION,
+    private final BufferedImage red_right1 = GraphicsOptions.resize(assets.image_red_right_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage pink_down_body = GraphicsOptions.resize(assets.image_pink_down_body2, PLAYER_DIMENSION,
+    private final BufferedImage pink_right1 = GraphicsOptions.resize(assets.image_pink_right_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage cyan_down_body = GraphicsOptions.resize(assets.image_cyan_down_body2, PLAYER_DIMENSION,
+    private final BufferedImage cyan_right1 = GraphicsOptions.resize(assets.image_cyan_right_body1, PLAYER_DIMENSION,
             PLAYER_DIMENSION);
-    private final BufferedImage yellow_down_body = GraphicsOptions.resize(assets.image_yellow_down_body2,
+    private final BufferedImage yellow_right1 = GraphicsOptions.resize(assets.image_yellow_right_body1,
             PLAYER_DIMENSION, PLAYER_DIMENSION);
+
+    private final BufferedImage red_up1 = GraphicsOptions.resize(assets.image_red_up_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_up1 = GraphicsOptions.resize(assets.image_pink_up_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_up1 = GraphicsOptions.resize(assets.image_cyan_up_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_up1 = GraphicsOptions.resize(assets.image_yellow_up_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+
+    private final BufferedImage red_down1 = GraphicsOptions.resize(assets.image_red_down_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_down1 = GraphicsOptions.resize(assets.image_pink_down_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_down1 = GraphicsOptions.resize(assets.image_cyan_down_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_down1 = GraphicsOptions.resize(assets.image_yellow_down_body1, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+
+    private final BufferedImage red_left2 = GraphicsOptions.resize(assets.image_red_left_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_left2 = GraphicsOptions.resize(assets.image_pink_left_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_left2 = GraphicsOptions.resize(assets.image_cyan_left_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_left2 = GraphicsOptions.resize(assets.image_yellow_left_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+
+    private final BufferedImage red_right2 = GraphicsOptions.resize(assets.image_red_right_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_right2 = GraphicsOptions.resize(assets.image_pink_right_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_right2 = GraphicsOptions.resize(assets.image_cyan_right_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_right2 = GraphicsOptions.resize(assets.image_yellow_right_body2,
+            PLAYER_DIMENSION, PLAYER_DIMENSION);
+
+    private final BufferedImage red_up2 = GraphicsOptions.resize(assets.image_red_up_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_up2 = GraphicsOptions.resize(assets.image_pink_up_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_up2 = GraphicsOptions.resize(assets.image_cyan_up_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_up2 = GraphicsOptions.resize(assets.image_yellow_up_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+
+    private final BufferedImage red_down2 = GraphicsOptions.resize(assets.image_red_down_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage pink_down2 = GraphicsOptions.resize(assets.image_pink_down_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage cyan_down2 = GraphicsOptions.resize(assets.image_cyan_down_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
+    private final BufferedImage yellow_down2 = GraphicsOptions.resize(assets.image_yellow_down_body2, PLAYER_DIMENSION,
+            PLAYER_DIMENSION);
 
     private final int SHIFT = 5; // each time the code runs, # of pixels the player moves
     private final int THRESHOLD = 4; // how close to an intersection do you have to be to be "at" that intersection
 
-    private BufferedImage current_red = red_left_body;
-    private BufferedImage current_pink = pink_up_body;
-    private BufferedImage current_cyan = cyan_left_body;
-    private BufferedImage current_yellow = yellow_right_body;
+    private BufferedImage current_red = red_left2;
+    private BufferedImage current_pink = pink_up2;
+    private BufferedImage current_cyan = cyan_left2;
+    private BufferedImage current_yellow = yellow_right2;
+
+    private boolean red1 = false;
+    private boolean pink1 = false;
+    private boolean cyan1 = false;
+    private boolean yellow1 = false;
 
     private BufferedImage current_player = full_circle; // image currently displayed as player
     // true when large_mouth image is displayed, false when small_mouth image is
@@ -145,7 +186,7 @@ public class DrawCanvas extends JPanel {
     // Cyan
     private boolean upAvail_cyan = false;
     private boolean downAvail_cyan = false;
-    private boolean leftAvail_cyan = true;
+    private boolean leftAvail_cyan = false;
     private boolean rightAvail_cyan = true;
     private int cyan_state = 0;
 
@@ -153,7 +194,7 @@ public class DrawCanvas extends JPanel {
     private boolean upAvail_yellow = false;
     private boolean downAvail_yellow = false;
     private boolean leftAvail_yellow = true;
-    private boolean rightAvail_yellow = true;
+    private boolean rightAvail_yellow = false;
     private int yellow_state = 0;
 
     // intersection points: each point in each array is an intersection where the
@@ -164,7 +205,8 @@ public class DrawCanvas extends JPanel {
             { 275, 650 }, { 275, 715 }, { 340, 192 }, { 340, 323 }, { 340, 454 }, { 340, 584 }, { 340, 715 },
             { 406, 192 }, { 406, 257 }, { 406, 323 }, { 406, 454 }, { 406, 520 }, { 406, 584 }, { 406, 650 },
             { 471, 105 }, { 471, 192 }, { 471, 388 }, { 471, 520 }, { 471, 584 }, { 536, 650 }, { 580, 105 },
-            { 580, 192 }, { 580, 257 }, { 580, 520 }, { 580, 584 }, { 580, 650 }, { 580, 715 } };
+            { 580, 192 }, { 580, 257 }, { 580, 520 }, { 580, 584 }, { 580, 650 }, { 580, 715 }, { 307, 323 },
+            { 307, 388 }, { 350, 388 } };
 
     private final int[][] rightPoints = { { 536, 584 }, { 536, 650 }, { 471, 105 }, { 471, 192 }, { 471, 257 },
             { 471, 388 }, { 471, 520 }, { 471, 650 }, { 406, 192 }, { 406, 388 }, { 406, 520 }, { 406, 584 },
@@ -172,21 +214,23 @@ public class DrawCanvas extends JPanel {
             { 340, 650 }, { 340, 715 }, { 275, 192 }, { 275, 323 }, { 275, 454 }, { 275, 584 }, { 275, 715 },
             { 210, 192 }, { 210, 257 }, { 210, 323 }, { 210, 454 }, { 210, 520 }, { 210, 584 }, { 210, 650 },
             { 144, 105 }, { 144, 192 }, { 144, 388 }, { 144, 520 }, { 144, 584 }, { 79, 650 }, { 35, 105 }, { 35, 192 },
-            { 35, 257 }, { 35, 520 }, { 35, 584 }, { 35, 650 }, { 35, 715 } };
+            { 35, 257 }, { 35, 520 }, { 35, 584 }, { 35, 650 }, { 35, 715 }, { 307, 323 }, { 307, 388 }, { 264, 388 } };
 
     private final int[][] upPoints = { { 35, 192 }, { 144, 192 }, { 275, 192 }, { 340, 192 }, { 471, 192 },
             { 580, 192 }, { 35, 257 }, { 144, 257 }, { 210, 257 }, { 406, 257 }, { 471, 257 }, { 580, 257 },
             { 275, 323 }, { 340, 323 }, { 144, 388 }, { 210, 388 }, { 406, 388 }, { 471, 388 }, { 210, 454 },
             { 406, 454 }, { 144, 520 }, { 210, 520 }, { 406, 520 }, { 471, 520 }, { 35, 584 }, { 144, 584 },
             { 275, 584 }, { 340, 584 }, { 471, 584 }, { 580, 584 }, { 79, 650 }, { 144, 650 }, { 210, 650 },
-            { 406, 650 }, { 471, 650 }, { 536, 650 }, { 35, 715 }, { 275, 715 }, { 340, 715 }, { 580, 715 } };
+            { 406, 650 }, { 471, 650 }, { 536, 650 }, { 35, 715 }, { 275, 715 }, { 340, 715 }, { 580, 715 },
+            { 307, 388 } };
 
     private final int[][] downPoints = { { 35, 105 }, { 144, 105 }, { 275, 105 }, { 340, 105 }, { 471, 105 },
             { 580, 105 }, { 35, 192 }, { 144, 192 }, { 210, 192 }, { 406, 192 }, { 471, 192 }, { 580, 192 },
             { 144, 257 }, { 275, 257 }, { 340, 257 }, { 471, 257 }, { 210, 323 }, { 406, 323 }, { 144, 388 },
             { 210, 388 }, { 406, 388 }, { 471, 388 }, { 210, 454 }, { 406, 454 }, { 35, 520 }, { 144, 520 },
             { 275, 520 }, { 340, 520 }, { 471, 520 }, { 580, 520 }, { 79, 584 }, { 144, 584 }, { 210, 584 },
-            { 406, 584 }, { 471, 584 }, { 536, 584 }, { 35, 650 }, { 275, 650 }, { 340, 650 }, { 580, 650 } };
+            { 406, 584 }, { 471, 584 }, { 536, 584 }, { 35, 650 }, { 275, 650 }, { 340, 650 }, { 580, 650 },
+            { 307, 323 } };
 
     private final int[][] dots = { { 35, 105 }, { 57, 105 }, { 79, 105 }, { 101, 105 }, { 123, 105 }, { 144, 105 },
             { 166, 105 }, { 188, 105 }, { 210, 105 }, { 232, 105 }, { 254, 105 }, { 275, 105 }, { 340, 105 },
@@ -221,7 +265,7 @@ public class DrawCanvas extends JPanel {
             { 340, 693 }, { 580, 672 }, { 580, 693 }, { 35, 715 }, { 57, 715 }, { 79, 715 }, { 101, 715 }, { 123, 715 },
             { 144, 715 }, { 166, 715 }, { 188, 715 }, { 210, 715 }, { 232, 715 }, { 254, 715 }, { 275, 715 },
             { 297, 715 }, { 319, 715 }, { 340, 715 }, { 362, 715 }, { 384, 715 }, { 406, 715 }, { 427, 715 },
-            { 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 }, };
+            { 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 } };
 
     private ArrayList<int[]> hiddenDots = new ArrayList<int[]>();
 
@@ -271,14 +315,14 @@ public class DrawCanvas extends JPanel {
             leftAvail_red = false;
             rightAvail_red = false;
         }
-        
+
         if (pink_state > 0) {
             upAvail_pink = false;
             downAvail_pink = false;
             leftAvail_pink = false;
             rightAvail_pink = false;
         }
-        
+
         if (cyan_state > 0) {
             upAvail_cyan = false;
             downAvail_cyan = false;
@@ -292,7 +336,6 @@ public class DrawCanvas extends JPanel {
             leftAvail_yellow = false;
             rightAvail_yellow = false;
         }
-
 
         // iterate through the intersections. If the player is at an intersection in one
         // of the arrays, it is known that movement in certain directions is available
@@ -518,19 +561,15 @@ public class DrawCanvas extends JPanel {
 
         if (leftAvail_red == true /* || player_position.getX() > red_position.getX() */) {
             red_state = 3;
-            current_red = red_left_body;
             red_position.translate(-1 * SHIFT, 0); // left
         } else if (rightAvail_red == true /* || player_position.getX() < red_position.getX() */) {
             red_state = 4;
-            current_red = red_right_body;
             red_position.translate(SHIFT, 0);// right
         } else if (upAvail_red == true /* || player_position.getY() < red_position.getY() */) {
             red_state = 1;
-            current_red = red_up_body;
             red_position.translate(0, -1 * SHIFT); // shift up
         } else if (downAvail_red == true /* || player_position.getY() > red_position.getY() */) {
             red_state = 2;
-            current_red = red_down_body;
             red_position.translate(0, SHIFT); // down
         }
 
@@ -538,23 +577,20 @@ public class DrawCanvas extends JPanel {
         System.out.println(upAvail_red + " " + downAvail_red + " " + leftAvail_red + " " + rightAvail_red);
         System.out.println(red_state);
         System.out.println(red_currentCoords[0] + red_currentCoords[1]);
+        
         // PINK Ghost
         if (leftAvail_pink == true /* || player_position.getX() > pink_position.getX() */) {
             pink_state = 3;
-            current_pink = pink_left_body;
             pink_position.translate(-1 * SHIFT, 0); // left
         } else if (rightAvail_pink == true /* || player_position.getX() < pink_position.getX() */) {
             pink_state = 4;
-            current_pink = pink_right_body;
             pink_position.translate(SHIFT, 0);// right
         } else if (upAvail_pink == true /* || player_position.getY() < pink_position.getY() */) {
             pink_state = 1;
-            current_pink = pink_up_body;
             pink_position.translate(0, -1 * SHIFT); // shift up
 
         } else if (downAvail_pink == true /* || player_position.getY() > pink_position.getY() */) {
             pink_state = 2;
-            current_pink = pink_down_body;
             pink_position.translate(0, SHIFT); // down
         }
 
@@ -562,19 +598,15 @@ public class DrawCanvas extends JPanel {
 
         if (leftAvail_cyan == true /* || player_position.getX() > cyan_position.getX() */) {
             cyan_state = 3;
-            current_cyan = cyan_left_body;
             cyan_position.translate(-1 * SHIFT, 0); // left
         } else if (rightAvail_cyan == true /* || player_position.getX() < cyan_position.getX() */) {
             cyan_state = 4;
-            current_cyan = cyan_right_body;
             cyan_position.translate(SHIFT, 0);// right
         } else if (upAvail_cyan == true /* || player_position.getY() < cyan_position.getY() */) {
             cyan_state = 1;
-            current_cyan = cyan_up_body;
             cyan_position.translate(0, -1 * SHIFT); // shift up
         } else if (downAvail_cyan == true /* || player_position.getY() > cyan_position.getY() */) {
             cyan_state = 2;
-            current_cyan = cyan_down_body;
             cyan_position.translate(0, SHIFT); // down
         }
 
@@ -582,19 +614,15 @@ public class DrawCanvas extends JPanel {
 
         if (leftAvail_yellow == true /* || player_position.getX() > yellow_position.getX() */) {
             yellow_state = 3;
-            current_yellow = yellow_left_body;
             yellow_position.translate(-1 * SHIFT, 0); // left
         } else if (rightAvail_yellow == true /* || player_position.getX() < yellow_position.getX() */) {
             yellow_state = 4;
-            current_yellow = yellow_right_body;
             yellow_position.translate(SHIFT, 0);// right
         } else if (upAvail_yellow == true /* || player_position.getY() < yellow_position.getY() */) {
             yellow_state = 1;
-            current_yellow = yellow_up_body;
             yellow_position.translate(0, -1 * SHIFT); // shift up
         } else if (downAvail_yellow == true /* || player_position.getY() > yellow_position.getY() */) {
             yellow_state = 2;
-            current_yellow = yellow_down_body;
             yellow_position.translate(0, SHIFT); // down
         }
 
@@ -657,6 +685,174 @@ public class DrawCanvas extends JPanel {
             current_large_mouth = true;
         }
 
+        if (red1) {
+            switch (red_state) {
+                case 1:
+                    current_red = red_up2;
+                    break;
+                case 2:
+                    current_red = red_down2;
+                    break;
+                case 3:
+                    current_red = red_left2;
+                    break;
+                case 4:
+                    current_red = red_right2;
+                    break;
+                default:
+                    current_red = red_left2;
+                    break;
+            }
+
+            red1 = false;
+        } else {
+            switch (red_state) {
+                case 1:
+                    current_red = red_up1;
+                    break;
+                case 2:
+                    current_red = red_down1;
+                    break;
+                case 3:
+                    current_red = red_left1;
+                    break;
+                case 4:
+                    current_red = red_right1;
+                    break;
+                default:
+                    current_red = red_right1;
+                    break;
+            }
+
+            red1 = true;
+        }
+
+        if (pink1) {
+            switch (pink_state) {
+                case 1:
+                    current_pink = pink_up2;
+                    break;
+                case 2:
+                    current_pink = pink_down2;
+                    break;
+                case 3:
+                    current_pink = pink_left2;
+                    break;
+                case 4:
+                    current_pink = pink_right2;
+                    break;
+                default:
+                    current_pink = pink_left2;
+                    break;
+            }
+
+            pink1 = false;
+        } else {
+            switch (pink_state) {
+                case 1:
+                    current_pink = pink_up1;
+                    break;
+                case 2:
+                    current_pink = pink_down1;
+                    break;
+                case 3:
+                    current_pink = pink_left1;
+                    break;
+                case 4:
+                    current_pink = pink_right1;
+                    break;
+                default:
+                    current_pink = pink_right1;
+                    break;
+            }
+
+            pink1 = true;
+        }
+
+        if (cyan1) {
+            switch (cyan_state) {
+                case 1:
+                    current_cyan = cyan_up2;
+                    break;
+                case 2:
+                    current_cyan = cyan_down2;
+                    break;
+                case 3:
+                    current_cyan = cyan_left2;
+                    break;
+                case 4:
+                    current_cyan = cyan_right2;
+                    break;
+                default:
+                    current_cyan = cyan_left2;
+                    break;
+            }
+
+            cyan1 = false;
+        } else {
+            switch (cyan_state) {
+                case 1:
+                    current_cyan = cyan_up1;
+                    break;
+                case 2:
+                    current_cyan = cyan_down1;
+                    break;
+                case 3:
+                    current_cyan = cyan_left1;
+                    break;
+                case 4:
+                    current_cyan = cyan_right1;
+                    break;
+                default:
+                    current_cyan = cyan_right1;
+                    break;
+            }
+
+            cyan1 = true;
+        }
+
+        if (yellow1) {
+            switch (yellow_state) {
+                case 1:
+                    current_yellow = yellow_up2;
+                    break;
+                case 2:
+                    current_yellow = yellow_down2;
+                    break;
+                case 3:
+                    current_yellow = yellow_left2;
+                    break;
+                case 4:
+                    current_yellow = yellow_right2;
+                    break;
+                default:
+                    current_yellow = yellow_left2;
+                    break;
+            }
+
+            yellow1 = false;
+        } else {
+            switch (yellow_state) {
+                case 1:
+                    current_yellow = yellow_up1;
+                    break;
+                case 2:
+                    current_yellow = yellow_down1;
+                    break;
+                case 3:
+                    current_yellow = yellow_left1;
+                    break;
+                case 4:
+                    current_yellow = yellow_right1;
+                    break;
+                default:
+                    current_yellow = yellow_right1;
+                    break;
+            }
+
+            yellow1 = true;
+        }
+
         if (state == 1 && upAvail) { // if player will be going up and up is available
             player_position.translate(0, -1 * SHIFT); // shift up
         } else if (state == 2 && downAvail) { // same for down
@@ -669,13 +865,15 @@ public class DrawCanvas extends JPanel {
 
         // System.out.println(attemptedState + " " + state + "\n");
 
-        // currentCoords either contains {0, 0} or the coordinates of an intersection.
-        // {0, 0} indicates that the player has not yet been to an intersection, meaning
-        // they haven't had a chance to get off of the "tracks", so this is unnecessary
-        // anyway in that case. However, when currentCoords does contain the coordinates
-        // of an intersection, and the player is moving on a specific axis, they should
-        // not be offset from the track on the other axis. This if statement is true
-        // when the player is offset on the axis they are not moving on
+        /*
+         * currentCoords either contains {0, 0} or the coordinates of an intersection.
+         * {0, 0} indicates that the player has not yet been to an intersection, meaning
+         * they haven't had a chance to get off of the "tracks", so this is unnecessary
+         * anyway in that case. However, when currentCoords does contain the coordinates
+         * of an intersection, and the player is moving on a specific axis, they should
+         * not be offset from the track on the other axis. This if statement is true
+         * when the player is offset on the axis they are not moving on
+         */
         if (currentCoords[0] != 0 && (((state == 1 || state == 2) && player_position.getX() != currentCoords[0])
                 || ((state == 3 || state == 4) && player_position.getY() != currentCoords[1]))) {
             player_position.setLocation(currentCoords[0], currentCoords[1]); // move the player to the coordinates of
@@ -693,19 +891,27 @@ public class DrawCanvas extends JPanel {
             player_position.setLocation(GAME_SIZE.getWidth(), player_position.getY()); // move them to the right
         }
 
-        if (red_currentCoords[0] != 0 && (((red_state == 1 || red_state == 2) && red_position.getX() != red_currentCoords[0]) || ((state == 3 || state == 4) && red_position.getY() != red_currentCoords[1]))) {
+        if (red_currentCoords[0] != 0
+                && (((red_state == 1 || red_state == 2) && red_position.getX() != red_currentCoords[0])
+                        || ((state == 3 || state == 4) && red_position.getY() != red_currentCoords[1]))) {
             red_position.setLocation(red_currentCoords[0], red_currentCoords[1]);
         }
 
-        if (pink_currentCoords[0] != 0 && (((pink_state == 1 || pink_state == 2) && pink_position.getX() != pink_currentCoords[0]) || ((state == 3 || state == 4) && pink_position.getY() != pink_currentCoords[1]))) {
+        if (pink_currentCoords[0] != 0
+                && (((pink_state == 1 || pink_state == 2) && pink_position.getX() != pink_currentCoords[0])
+                        || ((state == 3 || state == 4) && pink_position.getY() != pink_currentCoords[1]))) {
             pink_position.setLocation(pink_currentCoords[0], pink_currentCoords[1]);
         }
 
-        if (cyan_currentCoords[0] != 0 && (((cyan_state == 1 || cyan_state == 2) && cyan_position.getX() != cyan_currentCoords[0]) || ((state == 3 || state == 4) && cyan_position.getY() != cyan_currentCoords[1]))) {
+        if (cyan_currentCoords[0] != 0
+                && (((cyan_state == 1 || cyan_state == 2) && cyan_position.getX() != cyan_currentCoords[0])
+                        || ((state == 3 || state == 4) && cyan_position.getY() != cyan_currentCoords[1]))) {
             cyan_position.setLocation(cyan_currentCoords[0], cyan_currentCoords[1]);
         }
 
-        if (yellow_currentCoords[0] != 0 && (((yellow_state == 1 || yellow_state == 2) && yellow_position.getX() != yellow_currentCoords[0]) || ((state == 3 || state == 4) && yellow_position.getY() != yellow_currentCoords[1]))) {
+        if (yellow_currentCoords[0] != 0
+                && (((yellow_state == 1 || yellow_state == 2) && yellow_position.getX() != yellow_currentCoords[0])
+                        || ((state == 3 || state == 4) && yellow_position.getY() != yellow_currentCoords[1]))) {
             yellow_position.setLocation(yellow_currentCoords[0], yellow_currentCoords[1]);
         }
 
