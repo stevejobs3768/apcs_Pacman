@@ -1,7 +1,6 @@
 package pacman;
 
 import java.awt.Font;
-import java.io.File;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

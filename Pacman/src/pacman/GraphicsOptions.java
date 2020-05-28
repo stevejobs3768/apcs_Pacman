@@ -35,7 +35,7 @@ public class GraphicsOptions extends JFrame {
         // adds the canvas to the center of the JFrame (canvas is the same size as
         // JFrame so it doesn't really make a difference where it's placed, but if they
         // were different sizes this would matter more)
-        cp.setBackground(DrawCanvas.CANVAS_BACKGROUND);
+        cp.setBackground(Board.CANVAS_BACKGROUND);
         cp.add(canvas, BorderLayout.CENTER);
 
         addKeyListener(new KeyAdapter() { // get keys pressed
