@@ -124,13 +124,17 @@ public class DrawCanvas extends JPanel {
         }
 
         if (player.lives == 0) {
-            // TODO: come up with a better exit method
-            System.exit(0);
+            exitGame();
         }
 
         // call the entire paintComponent function again (causes an infinite loop of
         // gameplay)
         repaint();
+    }
+
+    public void exitGame() {
+        // TODO: come up with a better exit method
+        System.exit(0);
     }
 
     public void checkRestart() {
