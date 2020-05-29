@@ -2,6 +2,7 @@ package pacman;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.util.ArrayList;
 
 public class Board {
 
@@ -10,6 +11,8 @@ public class Board {
     // drawing of pacman walls, borders, etc
     public final BufferedImage backgroundImage = GraphicsOptions.resize(GraphicsOptions.assets.image_background,
             (int) DrawCanvas.GAME_SIZE.getWidth(), (int) DrawCanvas.GAME_SIZE.getHeight() - 30);
+
+	public ArrayList<int[]> hiddenDots = new ArrayList<int[]>();
 
     // intersection points: each point in each array is an intersection where the
     // direction in the name of the array is available
@@ -78,5 +81,11 @@ public class Board {
             { 340, 693 }, { 580, 672 }, { 580, 693 }, { 35, 715 }, { 57, 715 }, { 79, 715 }, { 101, 715 }, { 123, 715 },
             { 144, 715 }, { 166, 715 }, { 188, 715 }, { 210, 715 }, { 232, 715 }, { 254, 715 }, { 275, 715 },
             { 297, 715 }, { 319, 715 }, { 340, 715 }, { 362, 715 }, { 384, 715 }, { 406, 715 }, { 427, 715 },
-            { 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 } };
+			{ 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 } };
+	
+	public void checkReset() {
+		if (dots.length == hiddenDots.size()) {
+			hiddenDots = new ArrayList<int[]>();
+		}
+	}
 }
