@@ -89,12 +89,14 @@ public class DrawCanvas extends JPanel {
         int cyanState = (int) (Math.random() * 3) + 1;
         int yellowState = (int) (Math.random() * 3) + 1;
 
-        System.out.println("" + redState + pinkState + cyanState + yellowState);
+        // System.out.println("" + redState + pinkState + cyanState + yellowState);
 
         red.confirmPosition(redState);
         pink.confirmPosition(pinkState);
         cyan.confirmPosition(cyanState);
         yellow.confirmPosition(yellowState);
+
+        checkRestart();
 
         player.draw(g, this);
 
@@ -121,9 +123,26 @@ public class DrawCanvas extends JPanel {
             e.printStackTrace();
         }
 
+        if (player.lives == 0) {
+            // TODO: come up with a better exit method
+            System.exit(0);
+        }
+
         // call the entire paintComponent function again (causes an infinite loop of
         // gameplay)
         repaint();
+    }
+
+    public void checkRestart() {
+        if (inRangePositions(player.position, red.position) || inRangePositions(player.position, pink.position)
+                || inRangePositions(player.position, cyan.position)
+                || inRangePositions(player.position, yellow.position)) {
+            player.restart();
+            red.restart();
+            pink.restart();
+            cyan.restart();
+            yellow.restart();
+        }
     }
 
     public void dots(Graphics g) {
@@ -164,6 +183,11 @@ public class DrawCanvas extends JPanel {
     public static boolean inRange(int[] coords, Point position) {
         return (position.getX() > coords[0] - THRESHOLD) && (position.getX() < coords[0] + THRESHOLD)
                 && (position.getY() > coords[1] - THRESHOLD) && (position.getY() < coords[1] + THRESHOLD);
+    }
+
+    public boolean inRangePositions(Point position1, Point position2) {
+        int[] coords = { (int) position1.getX(), (int) position1.getY() };
+        return inRange(coords, position2);
     }
 
     /**

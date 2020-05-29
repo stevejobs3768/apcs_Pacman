@@ -5,6 +5,7 @@ import java.awt.image.*;
 
 public class Ghost {
     public Point position;
+    private Point initial_position;
     private final int dimension = 32;
     private final int shift = 5;
 
@@ -33,7 +34,10 @@ public class Ghost {
             BufferedImage right1, BufferedImage up2, BufferedImage down2, BufferedImage left2, BufferedImage right2,
             boolean up, boolean down, boolean left, boolean right) {
 
-        this.position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() * xFactor / 2), (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * yFactor / 2));
+        initial_position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() * xFactor / 2),
+                (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * yFactor / 2));
+        this.position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() * xFactor / 2),
+                (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * yFactor / 2));
 
         this.up1 = GraphicsOptions.resize(up1, dimension, dimension);
         this.down1 = GraphicsOptions.resize(down1, dimension, dimension);
@@ -51,6 +55,13 @@ public class Ghost {
         downAvail = down;
         leftAvail = left;
         rightAvail = right;
+    }
+
+    public void restart() {
+        position.setLocation(initial_position);
+        currentCoords = new int[2];
+        reset();
+        state = 0;
     }
 
     public void reset() {
@@ -126,7 +137,8 @@ public class Ghost {
             position.setLocation(DrawCanvas.GAME_SIZE.getWidth(), position.getY());
         }
 
-        System.out.println(upAvail + " " + downAvail + " " + leftAvail + " " + rightAvail);
+        // System.out.println(upAvail + " " + downAvail + " " + leftAvail + " " +
+        // rightAvail);
     }
 
     public void draw(Graphics g, DrawCanvas canvas) {
@@ -172,8 +184,6 @@ public class Ghost {
             image1 = true;
         }
 
-        g.drawImage(current, (int) position.getX() - dimension / 2, (int) position.getY() - dimension / 2, canvas); // draw
-                                                                                                                    // the
-                                                                                                                    // player
+        g.drawImage(current, (int) position.getX() - dimension / 2, (int) position.getY() - dimension / 2, canvas);
     }
 }

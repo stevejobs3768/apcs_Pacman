@@ -4,8 +4,10 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class Player {
-    public final Point position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() / 2),
+    private final Point initial_position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() / 2),
             (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * 1.49 / 2)); // default starting position of player
+    public Point position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() / 2),
+            (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * 1.49 / 2)); // position of player
     private final Assets assets = GraphicsOptions.assets;
     private final int dimension = 32;
     private final int shift = 5; // each time the code runs, # of pixels the player moves
@@ -47,6 +49,16 @@ public class Player {
     // 0})
     private int[] currentCoords = { 0, 0 };
 
+    public int lives = 3;
+
+    public void restart() {
+        position.setLocation(initial_position);
+        currentCoords = new int[2];
+        lives--;
+        reset();
+        state = 0;
+    }
+
     public void reset() {
         // if game has not started, state == 0. If game has started, state is somewhere
         // on [1, 4], and availability booleans must be reset before determining their
@@ -56,6 +68,11 @@ public class Player {
             downAvail = false;
             leftAvail = false;
             rightAvail = false;
+        } else {
+            upAvail = false;
+            downAvail = false;
+            leftAvail = true;
+            rightAvail = true;
         }
     }
 
@@ -119,7 +136,6 @@ public class Player {
             position.translate(shift, 0);
         }
 
-        // System.out.println(attemptedState + " " + state + "\n");
 
         /*
          * currentCoords either contains {0, 0} or the coordinates of an intersection.
@@ -134,7 +150,6 @@ public class Player {
                 || ((state == 3 || state == 4) && position.getY() != currentCoords[1]))) {
             position.setLocation(currentCoords[0], currentCoords[1]); // move the player to the coordinates of
                                                                       // the last intersection the player was at
-            // System.out.println("set to: " + player_position);
         }
 
         // if the player has passed the right side of the board (it moved through the
@@ -195,7 +210,7 @@ public class Player {
             current_large_mouth = true;
         }
 
-        g.drawImage(current_player, (int) position.getX() - dimension / 2,
-                (int) position.getY() - dimension / 2, canvas); // draw the player
+        g.drawImage(current_player, (int) position.getX() - dimension / 2, (int) position.getY() - dimension / 2,
+                canvas); // draw the player
     }
 }
