@@ -29,11 +29,13 @@ public class Ghost {
     public boolean rightAvail;
     public int state = 0;
 
+    public String name;
+
     private int[] currentCoords = { 0, 0 };
 
     public Ghost(double xFactor, double yFactor, BufferedImage up1, BufferedImage down1, BufferedImage left1,
             BufferedImage right1, BufferedImage up2, BufferedImage down2, BufferedImage left2, BufferedImage right2,
-            boolean up, boolean down, boolean left, boolean right) {
+            boolean up, boolean down, boolean left, boolean right, String name) {
 
         initial_position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() * xFactor / 2),
                 (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * yFactor / 2));
@@ -56,10 +58,12 @@ public class Ghost {
         downAvail = down;
         leftAvail = left;
         rightAvail = right;
+
+        this.name = name;
     }
 
     public int[] getCoords() {
-        int[] coords = {(int) position.getX(), (int) position.getY()};
+        int[] coords = { (int) position.getX(), (int) position.getY() };
         return coords;
     }
 

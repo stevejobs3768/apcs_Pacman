@@ -52,7 +52,7 @@ public class Player {
     public int lives = 3;
 
     public int[] getCoords() {
-        int[] coords = {(int) position.getX(), (int) position.getY()};
+        int[] coords = { (int) position.getX(), (int) position.getY() };
         return coords;
     }
 
@@ -140,7 +140,6 @@ public class Player {
         } else if (state == 4 && rightAvail) { // same for right
             position.translate(shift, 0);
         }
-
 
         /*
          * currentCoords either contains {0, 0} or the coordinates of an intersection.

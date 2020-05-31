@@ -1,7 +1,6 @@
 package pacman;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -13,11 +12,11 @@ public class DrawCanvas extends JPanel {
     public static final Dimension MAC_CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
     public static final Dimension WINDOWS_CANVAS_SIZE = new Dimension(615, 785 + 30 + 25);
     public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
-    public static final int PLAYER_DIMENSION = 32; // width/height of player
-    public static final int DELAY = 10; // millisecond delay between iterations of paintComponent
-    public static final int COUNTER_MAX = 100;
-    // how close to an intersection do you have to be to be "at" that intersection
     private static final int THRESHOLD = 4;
+    private final int DELAY = 10; // millisecond delay between iterations of paintComponent
+    private final int COUNTER_MAX = 100;
+    // how close to an intersection do you have to be to be "at" that intersection
+    private final int TILE_SIZE = 22;
 
     private final Board board = new Board();
     private final Assets assets = GraphicsOptions.assets; // class containing all images
@@ -26,22 +25,22 @@ public class DrawCanvas extends JPanel {
     private final Ghost red = new Ghost(1, 0.825, assets.image_red_up_body1, assets.image_red_down_body1,
             assets.image_red_left_body1, assets.image_red_right_body1, assets.image_red_up_body2,
             assets.image_red_down_body2, assets.image_red_left_body2, assets.image_red_right_body2, false, false, true,
-            true);
+            true, "red");
 
     private final Ghost pink = new Ghost(1, 0.985, assets.image_pink_up_body1, assets.image_pink_down_body1,
             assets.image_pink_left_body1, assets.image_pink_right_body1, assets.image_pink_up_body2,
             assets.image_pink_down_body2, assets.image_pink_left_body2, assets.image_pink_right_body2, true, false,
-            false, false);
+            false, false, "pink");
 
     private final Ghost cyan = new Ghost(0.88, 0.985, assets.image_cyan_up_body1, assets.image_cyan_down_body1,
             assets.image_cyan_left_body1, assets.image_cyan_right_body1, assets.image_cyan_up_body2,
             assets.image_cyan_down_body2, assets.image_cyan_left_body2, assets.image_cyan_right_body2, false, false,
-            false, true);
+            false, true, "cyan");
 
     private final Ghost yellow = new Ghost(1.12, 0.985, assets.image_yellow_up_body1, assets.image_yellow_down_body1,
             assets.image_yellow_left_body1, assets.image_yellow_right_body1, assets.image_yellow_up_body2,
             assets.image_yellow_down_body2, assets.image_yellow_left_body2, assets.image_yellow_right_body2, false,
-            false, true, false);
+            false, true, false, "yellow");
 
     private int attemptedState = 0;
     private int counter = 0;
@@ -86,131 +85,102 @@ public class DrawCanvas extends JPanel {
 
         player.confirmPosition(attemptedState);
 
-        ArrayList<int[]> redPoints = new ArrayList<int[]>();
-        redPoints.add(red.getCoords());
-        redPoints.add(player.getCoords());
-        
-        int redState = 0;
+        int[] playerCoords = player.getCoords();
 
-        if (red.state == 1 && red.upAvail) {
-            redState = 1;
-        } else if (red.state == 2 && red.downAvail) {
-            redState = 2;
-        } else if (red.state == 3 && red.leftAvail) {
-            redState = 3;
-        } else if (red.state == 4 && red.rightAvail) {
-            redState = 4;
-        }
-
-        double slope = (red.position.getY() - player.position.getY()) / (red.position.getX() - player.position.getX());
-
-        if ((slope < 1 && slope > 0) || (slope > -1 && slope < 0)) {
-            if (red.position.getX() > player.position.getX() && red.leftAvail) {
-                redState = 3;
-            } else if (red.position.getX() < player.position.getX() && red.rightAvail) {
-                redState = 4;
-            } else if (red.position.getY() > player.position.getY() && red.upAvail) {
+        int redState = ghostTarget(red, playerCoords);
+        if (redState == 0) {
+            if (red.state == 1 && red.upAvail) {
                 redState = 1;
-            } else if (red.position.getY() < player.position.getY() && red.downAvail) {
+            } else if (red.state == 2 && red.downAvail) {
                 redState = 2;
-            } else if (red.upAvail) {
-                redState = 1;
-            } else if (red.downAvail) {
-                redState = 2;
-            } else if (red.leftAvail) {
+            } else if (red.state == 3 && red.leftAvail) {
                 redState = 3;
-            } else if (red.upAvail) {
+            } else if (red.state == 4 && red.rightAvail) {
                 redState = 4;
             }
-        } else if (slope < -1 || slope > 1) {
-            if (red.position.getY() > player.position.getY() && red.upAvail) {
-                redState = 1;
-            } else if (red.position.getY() < player.position.getY() && red.downAvail) {
-                redState = 2;
-            } else if (red.position.getX() > player.position.getX() && red.leftAvail) {
-                redState = 3;
-            } else if (red.position.getX() < player.position.getX() && red.rightAvail) {
-                redState = 4;
-            } else if (red.leftAvail) {
-                redState = 3;
-            } else if (red.upAvail) {
-                redState = 4;
-            } else if (red.upAvail) {
-                redState = 1;
-            } else if (red.downAvail) {
-                redState = 2;
+        }
+        red.confirmPosition(redState);
+
+        int[] pinkCoords = { playerCoords[0], playerCoords[1] };
+        if (player.state == 1) {
+            pinkCoords[0] -= 88;
+            pinkCoords[1] -= 88;
+        } else if (player.state == 2) {
+            pinkCoords[1] += 44;
+        } else if (player.state == 3) {
+            pinkCoords[0] -= 44;
+        } else if (player.state == 4) {
+            pinkCoords[0] += 44;
+        }
+
+        int pinkState = ghostTarget(pink, pinkCoords);
+        if (pinkState == 0) {
+            if (pink.state == 1 && pink.upAvail) {
+                pinkState = 1;
+            } else if (pink.state == 2 && pink.downAvail) {
+                pinkState = 2;
+            } else if (pink.state == 3 && pink.leftAvail) {
+                pinkState = 3;
+            } else if (pink.state == 4 && pink.rightAvail) {
+                pinkState = 4;
             }
         }
+        pink.confirmPosition(pinkState);
 
-        System.out.println(slope);
+        int[] cyanCoords = { playerCoords[0], playerCoords[1] };
+        if (player.state == 1) {
+            cyanCoords[0] -= 44;
+            cyanCoords[1] -= 44;
+        } else if (player.state == 2) {
+            cyanCoords[1] += 44;
+        } else if (player.state == 3) {
+            cyanCoords[0] -= 44;
+        } else if (player.state == 4) {
+            cyanCoords[0] += 44;
+        }
 
+        cyanCoords[0] += cyanCoords[0] - red.position.getX();
+        cyanCoords[1] += cyanCoords[1] - red.position.getY();
 
-        // TODO: Add actual tracking code
-        // g.drawLine(redPoints.get(0)[0], redPoints.get(0)[1],
-        // redPoints.get(redPoints.size() - 1)[0], redPoints.get(redPoints.size() -
-        // 1)[1]);
-
-        if (red.position.getX() < player.position.getX() && red.rightAvail) {
-            for (int i : board.xCoords) {
-                if (i > red.position.getX() || (red.position.getY() > 388 - THRESHOLD && red.position.getY() < 388 + THRESHOLD)) {
-                    int[] coords = { i, (int) red.position.getY() };
-                    boolean found = false;
-                    // System.out.println(i);
-
-                    for (int[] j : board.leftPoints) {
-                        if (inRange(j[0], i) && inRange(j[1], coords[1])) {
-                            // System.out.println(i);
-                            // System.out.println();
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        break;
-                    }
-
-                    // System.out.println((board.left.contains(coords) && ((red.position.getY() >
-                    // player.position.getY() && board.up.contains(coords)) || (red.position.getY()
-                    // < player.position.getY() && board.down.contains(coords)))));
-                    // System.out.println(board.left);
-                    /*
-                     * if (board.left.contains(coords)) { }
-                     */
-
-                    // System.out.println((int) red.position.getY());
-
-                    // System.out.println(red.position.getY() > player.position.getY() &&
-                    // board.up.contains(coords));
-                    // System.out.println(red.position.getY() < player.position.getY() &&
-                    // board.down.contains(coords));
-
-                    if ((red.position.getY() > player.position.getY() && board.upAt(coords)
-                                    || (red.position.getY() < player.position.getY() && board.downAt(coords)))) {
-                        redPoints.add(1, coords);
-                        break;
-                    }
-                }
+        int cyanState = ghostTarget(cyan, cyanCoords);
+        if (cyanState == 0) {
+            if (cyan.state == 1 && cyan.upAvail) {
+                cyanState = 1;
+            } else if (cyan.state == 2 && cyan.downAvail) {
+                cyanState = 2;
+            } else if (cyan.state == 3 && cyan.leftAvail) {
+                cyanState = 3;
+            } else if (cyan.state == 4 && cyan.rightAvail) {
+                cyanState = 4;
             }
         }
+        cyan.confirmPosition(cyanState);
 
-        // System.out.println(redPoints.size());
+        int[] yellowCoords = { playerCoords[0], playerCoords[1] };
 
-        for (int i = 0; i < redPoints.size() - 1; i++) {
-            g.drawLine(redPoints.get(i)[0], redPoints.get(i)[1], redPoints.get(i + 1)[0], redPoints.get(i + 1)[1]);
+        double yellowDistance = Math.sqrt(Math.pow(yellow.position.getX() - playerCoords[0], 2)
+                + Math.pow(yellow.position.getY() - playerCoords[1], 2));
+        if (yellowDistance < 8 * TILE_SIZE) {
+            yellowCoords[0] = 35;
+            yellowCoords[1] = 715;
         }
-        /*
-         * int pinkState = (int) (Math.random() * 3) + 1; int cyanState = (int)
-         * (Math.random() * 3) + 1; int yellowState = (int) (Math.random() * 3) + 1;
-         */
+
+        int yellowState = ghostTarget(yellow, yellowCoords);
+
+        if (yellowState == 0) {
+            if (yellow.state == 1 && yellow.upAvail) {
+                yellowState = 1;
+            } else if (yellow.state == 2 && yellow.downAvail) {
+                yellowState = 2;
+            } else if (yellow.state == 3 && yellow.leftAvail) {
+                yellowState = 3;
+            } else if (yellow.state == 4 && yellow.rightAvail) {
+                yellowState = 4;
+            }
+        }
+        yellow.confirmPosition(yellowState);
 
         // System.out.println("" + redState + pinkState + cyanState + yellowState);
-
-        red.confirmPosition(redState);
-        /*
-         * pink.confirmPosition(pinkState); cyan.confirmPosition(cyanState);
-         * yellow.confirmPosition(yellowState);
-         */
 
         checkRestart();
 
@@ -251,6 +221,62 @@ public class DrawCanvas extends JPanel {
         // call the entire paintComponent function again (causes an infinite loop of
         // gameplay)
         repaint();
+    }
+
+    public int ghostTarget(Ghost ghost, int[] playerCoords) {
+        double slope = (red.position.getY() - player.position.getY()) / (red.position.getX() - player.position.getX());
+
+        if (ghost.position.getY() < 390 && ghost.position.getY() > 328 && ghost.position.getX() < 310
+                && ghost.position.getX() > 305 && ghost.position.getY() != 323) {
+            return 1;
+        } else if (ghost.position.getY() > 385 && ghost.position.getY() < 390 && ghost.position.getX() > 265
+                && ghost.position.getX() < 350) {
+            if (ghost.name == "cyan") {
+                return 4;
+            } else if (ghost.name == "yellow") {
+                return 3;
+            }
+        }
+
+        if ((slope < 1 && slope > 0) || (slope > -1 && slope < 0)) {
+            if (red.position.getX() > playerCoords[0] && red.leftAvail) {
+                return 3;
+            } else if (red.position.getX() < playerCoords[0] && red.rightAvail) {
+                return 4;
+            } else if (red.position.getY() > playerCoords[1] && red.upAvail) {
+                return 1;
+            } else if (red.position.getY() < playerCoords[1] && red.downAvail) {
+                return 2;
+            } else if (red.upAvail) {
+                return 1;
+            } else if (red.downAvail) {
+                return 2;
+            } else if (red.leftAvail) {
+                return 3;
+            } else if (red.upAvail) {
+                return 4;
+            }
+        } else if (slope < -1 || slope > 1) {
+            if (red.position.getY() > playerCoords[1] && red.upAvail) {
+                return 1;
+            } else if (red.position.getY() < playerCoords[1] && red.downAvail) {
+                return 2;
+            } else if (red.position.getX() > playerCoords[0] && red.leftAvail) {
+                return 3;
+            } else if (red.position.getX() < playerCoords[0] && red.rightAvail) {
+                return 4;
+            } else if (red.leftAvail) {
+                return 3;
+            } else if (red.upAvail) {
+                return 4;
+            } else if (red.upAvail) {
+                return 1;
+            } else if (red.downAvail) {
+                return 2;
+            }
+        }
+
+        return 0;
     }
 
     public void exitGame(Graphics2D g2) {
@@ -327,10 +353,6 @@ public class DrawCanvas extends JPanel {
         return (position1.getX() > position2.getX() - threshold) && (position1.getX() < position2.getX() + threshold)
                 && (position1.getY() > position2.getY() - threshold)
                 && (position1.getY() < position2.getY() + threshold);
-    }
-
-    public static boolean inRange(double in1, double in2) {
-        return in1 > in2 - THRESHOLD && in1 < in2 + THRESHOLD;
     }
 
     /**

@@ -15,8 +15,8 @@ public class GraphicsOptions extends JFrame {
     private DrawCanvas canvas; // gameplay object
 
     public GraphicsOptions() {
-    
-        System.out.println(System.getProperty("os.name")); 
+
+        System.out.println(System.getProperty("os.name"));
 
         canvas = new DrawCanvas();
 
