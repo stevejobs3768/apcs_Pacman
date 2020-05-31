@@ -7,7 +7,8 @@ public class Ghost {
     public Point position;
     private Point initial_position;
     private final int dimension = 32;
-    private final int shift = 5;
+    private double shift = 5;
+    private double shiftChange = 0.001;
 
     private BufferedImage up1;
     private BufferedImage down1;
@@ -26,7 +27,7 @@ public class Ghost {
     public boolean downAvail;
     public boolean leftAvail;
     public boolean rightAvail;
-    private int state = 0;
+    public int state = 0;
 
     private int[] currentCoords = { 0, 0 };
 
@@ -55,6 +56,11 @@ public class Ghost {
         downAvail = down;
         leftAvail = left;
         rightAvail = right;
+    }
+
+    public int[] getCoords() {
+        int[] coords = {(int) position.getX(), (int) position.getY()};
+        return coords;
     }
 
     public void restart() {
@@ -106,6 +112,11 @@ public class Ghost {
             }
         }
 
+        shift += shiftChange;
+        if (shift > 7) {
+            shift = 5;
+        }
+
         if (attemptedState == 1 && upAvail) { // if user wants to go up and up is available
             state = attemptedState;
         } else if (attemptedState == 2 && downAvail) { // same for down
@@ -117,13 +128,13 @@ public class Ghost {
         }
 
         if (state == 1 && upAvail) {
-            position.translate(0, -1 * shift);
+            position.translate(0, -1 * (int) Math.round(shift));
         } else if (state == 2 && downAvail) {
-            position.translate(0, shift);
+            position.translate(0, (int) Math.round(shift));
         } else if (state == 3 && leftAvail) {
-            position.translate(-1 * shift, 0);
+            position.translate(-1 * (int) Math.round(shift), 0);
         } else if (state == 4 && rightAvail) {
-            position.translate(shift, 0);
+            position.translate((int) Math.round(shift), 0);
         }
 
         if (currentCoords[0] != 0 && (((state == 1 || state == 2) && position.getX() != currentCoords[0])

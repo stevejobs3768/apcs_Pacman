@@ -1,6 +1,8 @@
 package pacman;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class DrawCanvas extends JPanel {
@@ -84,18 +86,131 @@ public class DrawCanvas extends JPanel {
 
         player.confirmPosition(attemptedState);
 
+        ArrayList<int[]> redPoints = new ArrayList<int[]>();
+        redPoints.add(red.getCoords());
+        redPoints.add(player.getCoords());
+        
+        int redState = 0;
+
+        if (red.state == 1 && red.upAvail) {
+            redState = 1;
+        } else if (red.state == 2 && red.downAvail) {
+            redState = 2;
+        } else if (red.state == 3 && red.leftAvail) {
+            redState = 3;
+        } else if (red.state == 4 && red.rightAvail) {
+            redState = 4;
+        }
+
+        double slope = (red.position.getY() - player.position.getY()) / (red.position.getX() - player.position.getX());
+
+        if ((slope < 1 && slope > 0) || (slope > -1 && slope < 0)) {
+            if (red.position.getX() > player.position.getX() && red.leftAvail) {
+                redState = 3;
+            } else if (red.position.getX() < player.position.getX() && red.rightAvail) {
+                redState = 4;
+            } else if (red.position.getY() > player.position.getY() && red.upAvail) {
+                redState = 1;
+            } else if (red.position.getY() < player.position.getY() && red.downAvail) {
+                redState = 2;
+            } else if (red.upAvail) {
+                redState = 1;
+            } else if (red.downAvail) {
+                redState = 2;
+            } else if (red.leftAvail) {
+                redState = 3;
+            } else if (red.upAvail) {
+                redState = 4;
+            }
+        } else if (slope < -1 || slope > 1) {
+            if (red.position.getY() > player.position.getY() && red.upAvail) {
+                redState = 1;
+            } else if (red.position.getY() < player.position.getY() && red.downAvail) {
+                redState = 2;
+            } else if (red.position.getX() > player.position.getX() && red.leftAvail) {
+                redState = 3;
+            } else if (red.position.getX() < player.position.getX() && red.rightAvail) {
+                redState = 4;
+            } else if (red.leftAvail) {
+                redState = 3;
+            } else if (red.upAvail) {
+                redState = 4;
+            } else if (red.upAvail) {
+                redState = 1;
+            } else if (red.downAvail) {
+                redState = 2;
+            }
+        }
+
+        System.out.println(slope);
+
+
         // TODO: Add actual tracking code
-        int redState = (int) (Math.random() * 3) + 1;
-        int pinkState = (int) (Math.random() * 3) + 1;
-        int cyanState = (int) (Math.random() * 3) + 1;
-        int yellowState = (int) (Math.random() * 3) + 1;
+        // g.drawLine(redPoints.get(0)[0], redPoints.get(0)[1],
+        // redPoints.get(redPoints.size() - 1)[0], redPoints.get(redPoints.size() -
+        // 1)[1]);
+
+        if (red.position.getX() < player.position.getX() && red.rightAvail) {
+            for (int i : board.xCoords) {
+                if (i > red.position.getX() || (red.position.getY() > 388 - THRESHOLD && red.position.getY() < 388 + THRESHOLD)) {
+                    int[] coords = { i, (int) red.position.getY() };
+                    boolean found = false;
+                    // System.out.println(i);
+
+                    for (int[] j : board.leftPoints) {
+                        if (inRange(j[0], i) && inRange(j[1], coords[1])) {
+                            // System.out.println(i);
+                            // System.out.println();
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        break;
+                    }
+
+                    // System.out.println((board.left.contains(coords) && ((red.position.getY() >
+                    // player.position.getY() && board.up.contains(coords)) || (red.position.getY()
+                    // < player.position.getY() && board.down.contains(coords)))));
+                    // System.out.println(board.left);
+                    /*
+                     * if (board.left.contains(coords)) { }
+                     */
+
+                    // System.out.println((int) red.position.getY());
+
+                    // System.out.println(red.position.getY() > player.position.getY() &&
+                    // board.up.contains(coords));
+                    // System.out.println(red.position.getY() < player.position.getY() &&
+                    // board.down.contains(coords));
+
+                    if ((red.position.getY() > player.position.getY() && board.upAt(coords)
+                                    || (red.position.getY() < player.position.getY() && board.downAt(coords)))) {
+                        redPoints.add(1, coords);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // System.out.println(redPoints.size());
+
+        for (int i = 0; i < redPoints.size() - 1; i++) {
+            g.drawLine(redPoints.get(i)[0], redPoints.get(i)[1], redPoints.get(i + 1)[0], redPoints.get(i + 1)[1]);
+        }
+        /*
+         * int pinkState = (int) (Math.random() * 3) + 1; int cyanState = (int)
+         * (Math.random() * 3) + 1; int yellowState = (int) (Math.random() * 3) + 1;
+         */
 
         // System.out.println("" + redState + pinkState + cyanState + yellowState);
 
         red.confirmPosition(redState);
-        pink.confirmPosition(pinkState);
-        cyan.confirmPosition(cyanState);
-        yellow.confirmPosition(yellowState);
+        /*
+         * pink.confirmPosition(pinkState); cyan.confirmPosition(cyanState);
+         * yellow.confirmPosition(yellowState);
+         */
 
         checkRestart();
 
@@ -212,6 +327,10 @@ public class DrawCanvas extends JPanel {
         return (position1.getX() > position2.getX() - threshold) && (position1.getX() < position2.getX() + threshold)
                 && (position1.getY() > position2.getY() - threshold)
                 && (position1.getY() < position2.getY() + threshold);
+    }
+
+    public static boolean inRange(double in1, double in2) {
+        return in1 > in2 - THRESHOLD && in1 < in2 + THRESHOLD;
     }
 
     /**

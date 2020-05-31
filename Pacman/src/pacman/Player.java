@@ -51,6 +51,11 @@ public class Player {
 
     public int lives = 3;
 
+    public int[] getCoords() {
+        int[] coords = {(int) position.getX(), (int) position.getY()};
+        return coords;
+    }
+
     public void restart() {
         position.setLocation(initial_position);
         currentCoords = new int[2];

@@ -82,6 +82,60 @@ public class Board {
 			{ 297, 715 }, { 319, 715 }, { 340, 715 }, { 362, 715 }, { 384, 715 }, { 406, 715 }, { 427, 715 },
 			{ 449, 715 }, { 471, 715 }, { 492, 715 }, { 514, 715 }, { 536, 715 }, { 558, 715 }, { 580, 715 } };
 
+	public final int[] xCoords = {35, 79, 144, 210, 275, 340, 406, 471, 536, 580};
+	public final int[] yCoords = {105, 192, 257, 323, 388, 454, 520, 584, 650};
+	
+	public ArrayList<int[]> up = new ArrayList<int[]>();
+	public ArrayList<int[]> down = new ArrayList<int[]>();
+	public ArrayList<int[]> left = new ArrayList<int[]>();
+	public ArrayList<int[]> right = new ArrayList<int[]>();
+	public ArrayList<int[]> all = new ArrayList<int[]>();
+
+	public Board() {
+		for (int[] point : upPoints) {
+			up.add(point);
+			if (!all.contains(point)) {
+				all.add(point);
+			}
+		}
+		for (int[] point : downPoints) {
+			down.add(point);
+			if (!all.contains(point)) {
+				all.add(point);
+			}
+		}
+		for (int[] point : leftPoints) {
+			left.add(point);
+			if (!all.contains(point)) {
+				all.add(point);
+			}
+		}
+		for (int[] point : rightPoints) {
+			right.add(point);
+			if (!all.contains(point)) {
+				all.add(point);
+			}
+		}
+	}
+
+	public boolean upAt(int[] coords) {
+		for (int[] pos : upPoints) {
+			if (coords[0] == pos[0] && coords[1] == pos[1]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean downAt(int[] coords) {
+		for (int[] pos : downPoints) {
+			if (coords[0] == pos[0] && coords[1] == pos[1]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void checkReset() {
 		if (dots.length == hiddenDots.size()) {
 			hiddenDots = new ArrayList<int[]>();
