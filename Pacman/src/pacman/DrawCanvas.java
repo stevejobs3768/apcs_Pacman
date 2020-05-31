@@ -12,7 +12,7 @@ public class DrawCanvas extends JPanel {
     public static final Dimension WINDOWS_CANVAS_SIZE = new Dimension(615, 785 + 30 + 25);
     public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
     public static final int PLAYER_DIMENSION = 32; // width/height of player
-    public static final int DELAY = 30; // millisecond delay between iterations of paintComponent
+    public static final int DELAY = 10; // millisecond delay between iterations of paintComponent
     public static final int COUNTER_MAX = 100;
     // how close to an intersection do you have to be to be "at" that intersection
     private static final int THRESHOLD = 4;
@@ -45,6 +45,7 @@ public class DrawCanvas extends JPanel {
     private int counter = 0;
     private int score = 0;
     private int cherryCount = 0;
+    private int deathCount = 0;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -107,7 +108,7 @@ public class DrawCanvas extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setFont(assets.pacmanFont);
+        g2.setFont(assets.pacmanFont.deriveFont(Font.PLAIN, 20));
         FontMetrics fontMetrics = g2.getFontMetrics();
         String s = "" + score * 10;
         String c = "" + cherryCount;
@@ -117,14 +118,19 @@ public class DrawCanvas extends JPanel {
                 (int) GAME_SIZE.getWidth() - fontMetrics.stringWidth(c) - 43, (int) GAME_SIZE.getHeight() - 56, this);
         g2.drawString(s, 100 - fontMetrics.stringWidth(s), 50);
 
-        try {
-            Thread.sleep(DELAY); // wait 100 milliseconds (the code is just too fast)
-        } catch (InterruptedException e) { // Thread.sleep throws an InterruptedException so this is necessary
-            e.printStackTrace();
+        for (int i = 0; i < player.lives; i++) {
+            g.drawImage(GraphicsOptions.resize(assets.image_player_small_mouth_left, 16, 16), 16 + 24 * i,
+                    (int) (GAME_SIZE.getHeight() - 52), this);
         }
 
-        if (player.lives == 0) {
-            exitGame();
+        if (player.lives < 1) {
+            exitGame(g2);
+        }
+
+        try {
+            Thread.sleep((3 - player.lives) * DELAY); // wait 100 milliseconds (the code is just too fast)
+        } catch (InterruptedException e) { // Thread.sleep throws an InterruptedException so this is necessary
+            e.printStackTrace();
         }
 
         // call the entire paintComponent function again (causes an infinite loop of
@@ -132,15 +138,28 @@ public class DrawCanvas extends JPanel {
         repaint();
     }
 
-    public void exitGame() {
-        // TODO: come up with a better exit method
-        System.exit(0);
+    public void exitGame(Graphics2D g2) {
+        final int fontSize = 50;
+        g2.setFont(assets.pacmanFont.deriveFont(Font.PLAIN, fontSize));
+        FontMetrics fontMetrics = g2.getFontMetrics();
+        g2.setColor(Color.red);
+        g2.drawString("GAME OVER", (int) (GAME_SIZE.getWidth() - fontMetrics.stringWidth("GAME OVER")) / 2,
+                (int) (GAME_SIZE.getHeight() - fontSize / 2 + 30) / 2);
+
+        if (deathCount > 0) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        }
+        deathCount++;
     }
 
     public void checkRestart() {
-        if (inRangePositions(player.position, red.position) || inRangePositions(player.position, pink.position)
-                || inRangePositions(player.position, cyan.position)
-                || inRangePositions(player.position, yellow.position)) {
+        if (inRange(player.position, red.position, 10) || inRange(player.position, pink.position, 10)
+                || inRange(player.position, cyan.position, 10) || inRange(player.position, yellow.position, 10)) {
             player.restart();
             red.restart();
             pink.restart();
@@ -189,9 +208,10 @@ public class DrawCanvas extends JPanel {
                 && (position.getY() > coords[1] - THRESHOLD) && (position.getY() < coords[1] + THRESHOLD);
     }
 
-    public boolean inRangePositions(Point position1, Point position2) {
-        int[] coords = { (int) position1.getX(), (int) position1.getY() };
-        return inRange(coords, position2);
+    public static boolean inRange(Point position1, Point position2, int threshold) {
+        return (position1.getX() > position2.getX() - threshold) && (position1.getX() < position2.getX() + threshold)
+                && (position1.getY() > position2.getY() - threshold)
+                && (position1.getY() < position2.getY() + threshold);
     }
 
     /**

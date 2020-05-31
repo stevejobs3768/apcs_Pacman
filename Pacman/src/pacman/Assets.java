@@ -115,7 +115,7 @@ public class Assets {
             image_yellow_down_body2 = ImageIO.read(getClass().getResource("assets/yellow/yellow_down_body2.png"));
 
             pacmanFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("assets/Emulogic.ttf").openStream());
-            pacmanFont = pacmanFont.deriveFont(Font.PLAIN, 20);
+            // pacmanFont = pacmanFont.deriveFont(Font.PLAIN, 20);
         } catch (IOException e) {
             System.err.println("IOException ERROR: " + e);
             System.exit(-1);
