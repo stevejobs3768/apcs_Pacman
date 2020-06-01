@@ -1,6 +1,8 @@
 package pacman;
 
 import java.awt.*;
+import java.io.*;
+
 import javax.swing.*;
 
 public class DrawCanvas extends JPanel {
@@ -92,6 +94,19 @@ public class DrawCanvas extends JPanel {
 
         // System.out.println("" + redState + pinkState + cyanState + yellowState);
 
+        try {
+            Runtime rt = Runtime.getRuntime();
+            String[] commands = { "python3", "src/pacman/maze.py", "src/pacman/assets/grid.txt", "" + (int) red.position.getY(), "" + (int) red.position.getX(),
+                    "" + (int) player.position.getY(), "" + (int) player.position.getX() };
+            Process proc = rt.exec(commands);
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String text = stdInput.readLine();
+            // System.out.println(text);
+            redState = Integer.parseInt(text);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
         red.confirmPosition(redState);
         pink.confirmPosition(pinkState);
         cyan.confirmPosition(cyanState);
@@ -127,11 +142,11 @@ public class DrawCanvas extends JPanel {
             exitGame(g2);
         }
 
-        try {
+        /* try {
             Thread.sleep((3 - player.lives) * DELAY); // wait 100 milliseconds (the code is just too fast)
         } catch (InterruptedException e) { // Thread.sleep throws an InterruptedException so this is necessary
             e.printStackTrace();
-        }
+        } */
 
         // call the entire paintComponent function again (causes an infinite loop of
         // gameplay)
