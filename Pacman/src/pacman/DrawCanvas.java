@@ -103,14 +103,14 @@ public class DrawCanvas extends JPanel {
 
         int[] pinkCoords = { playerCoords[0], playerCoords[1] };
         if (player.state == 1) {
-            pinkCoords[0] -= 88;
-            pinkCoords[1] -= 88;
+            pinkCoords[0] -= 4 * TILE_SIZE;
+            pinkCoords[1] -= 4 * TILE_SIZE;
         } else if (player.state == 2) {
-            pinkCoords[1] += 44;
+            pinkCoords[1] += 2 * TILE_SIZE;
         } else if (player.state == 3) {
-            pinkCoords[0] -= 44;
+            pinkCoords[0] -= 2 * TILE_SIZE;
         } else if (player.state == 4) {
-            pinkCoords[0] += 44;
+            pinkCoords[0] += 2 * TILE_SIZE;
         }
 
         int pinkState = ghostTarget(pink, pinkCoords);
@@ -129,14 +129,14 @@ public class DrawCanvas extends JPanel {
 
         int[] cyanCoords = { playerCoords[0], playerCoords[1] };
         if (player.state == 1) {
-            cyanCoords[0] -= 44;
-            cyanCoords[1] -= 44;
+            cyanCoords[0] -= 2 * TILE_SIZE;
+            cyanCoords[1] -= 2 * TILE_SIZE;
         } else if (player.state == 2) {
-            cyanCoords[1] += 44;
+            cyanCoords[1] += 2 * TILE_SIZE;
         } else if (player.state == 3) {
-            cyanCoords[0] -= 44;
+            cyanCoords[0] -= 2 * TILE_SIZE;
         } else if (player.state == 4) {
-            cyanCoords[0] += 44;
+            cyanCoords[0] += 2 * TILE_SIZE;
         }
 
         cyanCoords[0] += cyanCoords[0] - red.position.getX();
