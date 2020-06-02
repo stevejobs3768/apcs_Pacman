@@ -85,10 +85,93 @@ public class DrawCanvas extends JPanel {
         player.confirmPosition(attemptedState);
 
         // TODO: Add actual tracking code
-        int redState = (int) (Math.random() * 3) + 1;
-        int pinkState = (int) (Math.random() * 3) + 1;
-        int cyanState = (int) (Math.random() * 3) + 1;
-        int yellowState = (int) (Math.random() * 3) + 1;
+
+        int redState = 0;
+        int pinkState = 0;
+        int cyanState = 0;
+        int yellowState = 0;
+
+        double playerX = player.position.getX();
+        double playerY = player.position.getY();
+        
+        //RED DIRECTION
+        double redX = red.position.getX();
+        double redY = red.position.getY();
+        
+        if(Math.abs(red.getSlope(playerX, playerY)) >= 1){ // if the slope is negative (positive to human eyes) // change this to (Math.abs(<slope>) >= 1)
+            //System.out.println(red.getSlope(playerX, playerY));
+            if(redY < playerY){ //if the ghost is higher than the player  
+                if(red.downAvail){ // not detecting that this is available
+                    redState = 2; 
+                    System.out.println("down available");
+                }else if(red.rightAvail){
+                    redState = 4;
+                } else if(red.upAvail){
+                    redState = 1;
+                }else if(red.leftAvail){
+                    redState = 3;
+                }
+                //System.out.println(">= 1 down/right");
+               
+            }
+            else if(redY > playerY) { //if the ghost is lower the player
+                if(red.upAvail){
+                    redState = 1;
+                }else if(red.leftAvail){
+                    redState = 3;
+                }else if(red.downAvail){
+                    redState = 2;
+                }else if(red.rightAvail){
+                    redState = 4;
+                }
+                
+                // if neither is available, then what to do? prioritize between down and right
+                //System.out.println(">= 1 up/left");
+            }
+
+        } 
+        
+        else if(Math.abs(red.getSlope(playerX, playerY)) < 1){ // if the slope is positive // change this to (Math.abs(<slope>) < 1)
+            if(redX < playerX){  // this should compare redX and playerX
+                if(red.rightAvail){
+                    redState = 4;
+                }else if(red.downAvail){
+                    redState = 2;
+                }else if(red.leftAvail){
+                    redState = 3;
+                }else if(red.upAvail){
+                    redState = 1;
+                }
+                //System.out.println("down & right");
+            }
+            else if(redX > playerX) { //if the ghost is lower the player // this should compare redX and playerX
+                if(red.leftAvail){
+                    redState = 3;
+                }else if(red.upAvail){
+                    redState = 1;
+                }else if(red.rightAvail){
+                    redState = 4;
+                }else if(red.downAvail){
+                    redState = 2;
+                }
+                //System.out.println("up & left");
+            }
+            
+        }
+
+        else if(redX == playerX){
+            if(playerY < redY && red.upAvail){
+                redState = 1;
+            }else if(playerY > redY && red.downAvail){
+                redState = 2;
+            }else if(red.leftAvail){
+                redState = 3;
+            }else{
+                redState = 4;
+            }
+
+        }
+        //System.out.println(red.getSlope(playerX, playerY));
 
         // System.out.println("" + redState + pinkState + cyanState + yellowState);
 

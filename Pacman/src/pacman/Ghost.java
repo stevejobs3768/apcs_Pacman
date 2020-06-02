@@ -95,6 +95,10 @@ public class Ghost {
         }
     }
 
+    public double getSlope(double playerPositionX, double playerPositionY){
+        return (playerPositionY - position.getY())/(playerPositionX- position.getX());
+    }
+
     public void confirmPosition(int attemptedState) {
         if (!leftAvail && !rightAvail && !upAvail && !downAvail) {
             if (state == 1 || state == 2) {
@@ -119,6 +123,7 @@ public class Ghost {
         if (state == 1 && upAvail) {
             position.translate(0, -1 * shift);
         } else if (state == 2 && downAvail) {
+            System.out.println(shift);
             position.translate(0, shift);
         } else if (state == 3 && leftAvail) {
             position.translate(-1 * shift, 0);
