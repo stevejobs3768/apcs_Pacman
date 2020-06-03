@@ -22,22 +22,23 @@ public class DrawCanvas extends JPanel {
     private final Assets assets = GraphicsOptions.assets; // class containing all images
     private final Cherry cherry = new Cherry();
     private final Player player = new Player();
-    private final Ghost red = new Ghost(1, 0.825, assets.image_red_up_body1, assets.image_red_down_body1,
+    
+    private final Ghost red = new Ghost(307, 323, assets.image_red_up_body1, assets.image_red_down_body1,
             assets.image_red_left_body1, assets.image_red_right_body1, assets.image_red_up_body2,
             assets.image_red_down_body2, assets.image_red_left_body2, assets.image_red_right_body2, false, false, true,
             true, "red");
 
-    private final Ghost pink = new Ghost(1, 0.985, assets.image_pink_up_body1, assets.image_pink_down_body1,
+    private final Ghost pink = new Ghost(307, 388, assets.image_pink_up_body1, assets.image_pink_down_body1,
             assets.image_pink_left_body1, assets.image_pink_right_body1, assets.image_pink_up_body2,
             assets.image_pink_down_body2, assets.image_pink_left_body2, assets.image_pink_right_body2, true, false,
             false, false, "pink");
 
-    private final Ghost cyan = new Ghost(0.88, 0.985, assets.image_cyan_up_body1, assets.image_cyan_down_body1,
+    private final Ghost cyan = new Ghost(264, 388, assets.image_cyan_up_body1, assets.image_cyan_down_body1,
             assets.image_cyan_left_body1, assets.image_cyan_right_body1, assets.image_cyan_up_body2,
             assets.image_cyan_down_body2, assets.image_cyan_left_body2, assets.image_cyan_right_body2, false, false,
             false, true, "cyan");
 
-    private final Ghost yellow = new Ghost(1.12, 0.985, assets.image_yellow_up_body1, assets.image_yellow_down_body1,
+    private final Ghost yellow = new Ghost(350, 388, assets.image_yellow_up_body1, assets.image_yellow_down_body1,
             assets.image_yellow_left_body1, assets.image_yellow_right_body1, assets.image_yellow_up_body2,
             assets.image_yellow_down_body2, assets.image_yellow_left_body2, assets.image_yellow_right_body2, false,
             false, true, false, "yellow");
@@ -226,19 +227,19 @@ public class DrawCanvas extends JPanel {
     public int ghostTarget(Ghost ghost, int[] playerCoords) {
         double slope = (red.position.getY() - player.position.getY()) / (red.position.getX() - player.position.getX());
 
-        if (ghost.position.getY() < 390 && ghost.position.getY() > 328 && ghost.position.getX() < 310
-                && ghost.position.getX() > 305 && ghost.position.getY() != 323) {
+        if (ghost.position.getY() < 390 && ghost.position.getY() > 328 && ghost.position.getX() < 311
+                && ghost.position.getX() > 304 && ghost.position.getY() != 323) {
             return 1;
-        } else if (ghost.position.getY() > 385 && ghost.position.getY() < 390 && ghost.position.getX() > 265
-                && ghost.position.getX() < 350) {
-            if (ghost.name == "cyan") {
+        } else if (ghost.position.getY() > 380 && ghost.position.getY() < 395 && ghost.position.getX() > 262
+                && ghost.position.getX() < 360) {
+            if (ghost.name.equals("cyan")) {
                 return 4;
-            } else if (ghost.name == "yellow") {
+            } else if (ghost.name.equals("yellow")) {
                 return 3;
             }
         }
 
-        if ((slope < 1 && slope > 0) || (slope > -1 && slope < 0)) {
+        if (Math.abs(slope) < 1) {
             if (ghost.position.getX() > playerCoords[0] && ghost.leftAvail) {
                 return 3;
             } else if (ghost.position.getX() < playerCoords[0] && ghost.rightAvail) {
@@ -256,7 +257,7 @@ public class DrawCanvas extends JPanel {
             } else if (ghost.rightAvail) {
                 return 4;
             }
-        } else if (slope < -1 || slope > 1) {
+        } else if (Math.abs(slope) >= 1) {
             if (ghost.position.getY() > playerCoords[1] && ghost.upAvail) {
                 return 1;
             } else if (ghost.position.getY() < playerCoords[1] && ghost.downAvail) {

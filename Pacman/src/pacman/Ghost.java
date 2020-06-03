@@ -62,6 +62,33 @@ public class Ghost {
         this.name = name;
     }
 
+    public Ghost(int x, int y, BufferedImage up1, BufferedImage down1, BufferedImage left1,
+            BufferedImage right1, BufferedImage up2, BufferedImage down2, BufferedImage left2, BufferedImage right2,
+            boolean up, boolean down, boolean left, boolean right, String name) {
+
+        initial_position = new Point(x, y);
+        this.position = new Point(x, y);
+
+        this.up1 = GraphicsOptions.resize(up1, dimension, dimension);
+        this.down1 = GraphicsOptions.resize(down1, dimension, dimension);
+        this.left1 = GraphicsOptions.resize(left1, dimension, dimension);
+        this.right1 = GraphicsOptions.resize(right1, dimension, dimension);
+
+        this.up2 = GraphicsOptions.resize(up2, dimension, dimension);
+        this.down2 = GraphicsOptions.resize(down2, dimension, dimension);
+        this.left2 = GraphicsOptions.resize(left2, dimension, dimension);
+        this.right2 = GraphicsOptions.resize(right2, dimension, dimension);
+
+        current = down2;
+
+        upAvail = up;
+        downAvail = down;
+        leftAvail = left;
+        rightAvail = right;
+
+        this.name = name;
+    }
+
     public int[] getCoords() {
         int[] coords = { (int) position.getX(), (int) position.getY() };
         return coords;
@@ -116,9 +143,11 @@ public class Ghost {
             }
         }
 
-        shift += shiftChange;
-        if (shift > 7) {
-            shift = 5;
+        if (name.equals("red")) {
+            shift += shiftChange;
+            if (shift > 7) {
+                shift = 5;
+            }
         }
 
         if (attemptedState == 1 && upAvail) { // if user wants to go up and up is available
