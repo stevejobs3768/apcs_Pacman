@@ -61,6 +61,11 @@ public class Assets {
     public BufferedImage image_yellow_down_body1 = DEFAULT_IMAGE;
     public BufferedImage image_yellow_down_body2 = DEFAULT_IMAGE;
 
+    public BufferedImage image_frightened_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_frightened_body2 = DEFAULT_IMAGE;
+    public BufferedImage image_end_frightened_body1 = DEFAULT_IMAGE;
+    public BufferedImage image_end_frightened_body2 = DEFAULT_IMAGE;
+
     public Font pacmanFont;
 
     public Assets() {
@@ -113,6 +118,11 @@ public class Assets {
             image_yellow_up_body2 = ImageIO.read(getClass().getResource("assets/yellow/yellow_up_body2.png"));
             image_yellow_down_body1 = ImageIO.read(getClass().getResource("assets/yellow/yellow_down_body1.png"));
             image_yellow_down_body2 = ImageIO.read(getClass().getResource("assets/yellow/yellow_down_body2.png"));
+            
+            image_frightened_body1 = ImageIO.read(getClass().getResource("assets/frightened_body1.png"));
+            image_frightened_body2 = ImageIO.read(getClass().getResource("assets/frightened_body2.png"));
+            image_end_frightened_body1 = ImageIO.read(getClass().getResource("assets/end_frightened_body1.png"));
+            image_end_frightened_body2 = ImageIO.read(getClass().getResource("assets/end_frightened_body2.png"));
 
             pacmanFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("assets/Emulogic.ttf").openStream());
             // pacmanFont = pacmanFont.deriveFont(Font.PLAIN, 20);

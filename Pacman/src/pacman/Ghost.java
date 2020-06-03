@@ -19,6 +19,9 @@ public class Ghost {
     private BufferedImage left2;
     private BufferedImage right2;
 
+    private final BufferedImage frightened1 = GraphicsOptions.resize(GraphicsOptions.assets.image_frightened_body1, dimension, dimension);
+    private final BufferedImage frightened2 = GraphicsOptions.resize(GraphicsOptions.assets.image_frightened_body2, dimension, dimension);
+
     private BufferedImage current;
     private boolean image1 = false;
 
@@ -26,7 +29,9 @@ public class Ghost {
     public boolean downAvail;
     public boolean leftAvail;
     public boolean rightAvail;
-    private int state = 0;
+    public int state = 0;
+
+    public boolean frightened = false;
 
     private int[] currentCoords = { 0, 0 };
 
@@ -57,9 +62,14 @@ public class Ghost {
         rightAvail = right;
     }
 
+    public void frightened() {
+        frightened = true;
+    }
+
     public void restart() {
         position.setLocation(initial_position);
         currentCoords = new int[2];
+        frightened = false;
         reset();
         state = 0;
     }
@@ -144,7 +154,7 @@ public class Ghost {
         if (state == 1 && upAvail) {
             position.translate(0, -1 * shift);
         } else if (state == 2 && downAvail) {
-            //System.out.println(shift);
+            // System.out.println(shift);
             position.translate(0, shift);
         } else if (state == 3 && leftAvail) {
             position.translate(-1 * shift, 0);
@@ -168,46 +178,54 @@ public class Ghost {
     }
 
     public void draw(Graphics g, DrawCanvas canvas) {
-        if (image1) {
-            switch (state) {
-                case 1:
-                    current = up2;
-                    break;
-                case 2:
-                    current = down2;
-                    break;
-                case 3:
-                    current = left2;
-                    break;
-                case 4:
-                    current = right2;
-                    break;
-                default:
-                    current = left2;
-                    break;
+        if (frightened) {
+            if (image1) {
+                current = frightened1;
+            } else {
+                current = frightened2;
             }
-
-            image1 = false;
         } else {
-            switch (state) {
-                case 1:
-                    current = up1;
-                    break;
-                case 2:
-                    current = down1;
-                    break;
-                case 3:
-                    current = left1;
-                    break;
-                case 4:
-                    current = right1;
-                    break;
-                default:
-                    current = right1;
-                    break;
+            if (image1) {
+                switch (state) {
+                    case 1:
+                        current = up2;
+                        break;
+                    case 2:
+                        current = down2;
+                        break;
+                    case 3:
+                        current = left2;
+                        break;
+                    case 4:
+                        current = right2;
+                        break;
+                    default:
+                        current = left2;
+                        break;
+                }
+    
+                image1 = false;
+            } else {
+                switch (state) {
+                    case 1:
+                        current = up1;
+                        break;
+                    case 2:
+                        current = down1;
+                        break;
+                    case 3:
+                        current = left1;
+                        break;
+                    case 4:
+                        current = right1;
+                        break;
+                    default:
+                        current = right1;
+                        break;
+                }
+    
+                image1 = true;
             }
-
-            image1 = true;
         }
 
         g.drawImage(current, (int) position.getX() - dimension / 2, (int) position.getY() - dimension / 2, canvas);

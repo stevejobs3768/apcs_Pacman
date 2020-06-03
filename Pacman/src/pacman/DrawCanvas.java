@@ -46,6 +46,8 @@ public class DrawCanvas extends JPanel {
     private int score = 0;
     private int cherryCount = 0;
     private int deathCount = 0;
+    private boolean frightenedMode = false;
+    private int ghostsEaten = 0;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -179,13 +181,24 @@ yellowState = 1;//yellow.state();
     }
 
     public void checkRestart() {
-        if (inRange(player.position, red.position, 10) || inRange(player.position, pink.position, 10)
-                || inRange(player.position, cyan.position, 10) || inRange(player.position, yellow.position, 10)) {
+        if (!frightenedMode && (inRange(player.position, red.position, 10)
+                || inRange(player.position, pink.position, 10) || inRange(player.position, cyan.position, 10)
+                || inRange(player.position, yellow.position, 10))) {
             player.restart();
             red.restart();
             pink.restart();
             cyan.restart();
             yellow.restart();
+        } else if (inRange(player.position, red.position, 10)) {
+            red.restart();
+            if (!red.frightened) {
+                player.restart();
+                pink.restart();
+                cyan.restart();
+                yellow.restart();
+            } else {
+                score += 20 + 10 * (int) Math.pow(2, ghostsEaten);
+            }
         }
     }
 
@@ -198,6 +211,22 @@ yellowState = 1;//yellow.state();
                 if (player.intersect(coords, 5)) {
                     score++;
                     board.hiddenDots.add(coords);
+                }
+            }
+        }
+
+        for (int[] coords : board.largeDots) {
+            if (board.hiddenDots.indexOf(coords) < 0) {
+                g.fillOval(coords[0] - 10, coords[1] - 10, 20, 20);
+
+                if (player.intersect(coords, 5)) {
+                    score += 5;
+                    board.hiddenDots.add(coords);
+                    frightenedMode = true;
+                    red.frightened();
+                    pink.frightened();
+                    cyan.frightened();
+                    yellow.frightened();
                 }
             }
         }
