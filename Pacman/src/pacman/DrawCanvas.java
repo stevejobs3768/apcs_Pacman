@@ -239,39 +239,39 @@ public class DrawCanvas extends JPanel {
         }
 
         if ((slope < 1 && slope > 0) || (slope > -1 && slope < 0)) {
-            if (red.position.getX() > playerCoords[0] && red.leftAvail) {
+            if (ghost.position.getX() > playerCoords[0] && ghost.leftAvail) {
                 return 3;
-            } else if (red.position.getX() < playerCoords[0] && red.rightAvail) {
+            } else if (ghost.position.getX() < playerCoords[0] && ghost.rightAvail) {
                 return 4;
-            } else if (red.position.getY() > playerCoords[1] && red.upAvail) {
+            } else if (ghost.position.getY() > playerCoords[1] && ghost.upAvail) {
                 return 1;
-            } else if (red.position.getY() < playerCoords[1] && red.downAvail) {
+            } else if (ghost.position.getY() < playerCoords[1] && ghost.downAvail) {
                 return 2;
-            } else if (red.upAvail) {
+            } else if (ghost.upAvail) {
                 return 1;
-            } else if (red.downAvail) {
+            } else if (ghost.downAvail) {
                 return 2;
-            } else if (red.leftAvail) {
+            } else if (ghost.leftAvail) {
                 return 3;
-            } else if (red.upAvail) {
+            } else if (ghost.rightAvail) {
                 return 4;
             }
         } else if (slope < -1 || slope > 1) {
-            if (red.position.getY() > playerCoords[1] && red.upAvail) {
+            if (ghost.position.getY() > playerCoords[1] && ghost.upAvail) {
                 return 1;
-            } else if (red.position.getY() < playerCoords[1] && red.downAvail) {
+            } else if (ghost.position.getY() < playerCoords[1] && ghost.downAvail) {
                 return 2;
-            } else if (red.position.getX() > playerCoords[0] && red.leftAvail) {
+            } else if (ghost.position.getX() > playerCoords[0] && ghost.leftAvail) {
                 return 3;
-            } else if (red.position.getX() < playerCoords[0] && red.rightAvail) {
+            } else if (ghost.position.getX() < playerCoords[0] && ghost.rightAvail) {
                 return 4;
-            } else if (red.leftAvail) {
+            } else if (ghost.leftAvail) {
                 return 3;
-            } else if (red.upAvail) {
+            } else if (ghost.upAvail) {
                 return 4;
-            } else if (red.upAvail) {
+            } else if (ghost.upAvail) {
                 return 1;
-            } else if (red.downAvail) {
+            } else if (ghost.downAvail) {
                 return 2;
             }
         }
