@@ -99,6 +99,27 @@ public class Ghost {
         return (playerPositionY - position.getY())/(playerPositionX- position.getX());
     }
 
+    /* public int state(){
+        boolean check = false;
+
+        while(check != true){
+            int state = (int) (Math.random()*4+1);
+            if(state == 1 && upAvail){
+                check = true;
+                return state;
+            }else if(state == 2 && downAvail){
+                check = true;
+                return state;
+            }else if(state == 3 && leftAvail){
+                check = true;
+                return state;
+            }else if(state == 4 && rightAvail){
+                check = true;
+                return state;
+            } 
+        }
+        return 1;
+    } */
     public void confirmPosition(int attemptedState) {
         if (!leftAvail && !rightAvail && !upAvail && !downAvail) {
             if (state == 1 || state == 2) {
@@ -123,7 +144,7 @@ public class Ghost {
         if (state == 1 && upAvail) {
             position.translate(0, -1 * shift);
         } else if (state == 2 && downAvail) {
-            System.out.println(shift);
+            //System.out.println(shift);
             position.translate(0, shift);
         } else if (state == 3 && leftAvail) {
             position.translate(-1 * shift, 0);
