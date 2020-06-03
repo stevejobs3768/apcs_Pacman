@@ -96,6 +96,10 @@ public class Ghost {
         frightened = true;
     }
 
+    public void frightened() {
+        frightened = true;
+    }
+
     public void restart() {
         position.setLocation(initial_position);
         currentCoords = new int[2];
