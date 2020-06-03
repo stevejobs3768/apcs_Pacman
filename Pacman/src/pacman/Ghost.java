@@ -30,14 +30,42 @@ public class Ghost {
     public boolean leftAvail;
     public boolean rightAvail;
     public int state = 0;
+    public String name;
 
     public boolean frightened = false;
 
     private int[] currentCoords = { 0, 0 };
 
+    public Ghost(int x, int y, BufferedImage up1, BufferedImage down1, BufferedImage left1,
+            BufferedImage right1, BufferedImage up2, BufferedImage down2, BufferedImage left2, BufferedImage right2,
+            boolean up, boolean down, boolean left, boolean right, String name) {
+
+        initial_position = new Point(x, y);
+        this.position = new Point(x, y);
+
+        this.up1 = GraphicsOptions.resize(up1, dimension, dimension);
+        this.down1 = GraphicsOptions.resize(down1, dimension, dimension);
+        this.left1 = GraphicsOptions.resize(left1, dimension, dimension);
+        this.right1 = GraphicsOptions.resize(right1, dimension, dimension);
+
+        this.up2 = GraphicsOptions.resize(up2, dimension, dimension);
+        this.down2 = GraphicsOptions.resize(down2, dimension, dimension);
+        this.left2 = GraphicsOptions.resize(left2, dimension, dimension);
+        this.right2 = GraphicsOptions.resize(right2, dimension, dimension);
+
+        current = down2;
+
+        upAvail = up;
+        downAvail = down;
+        leftAvail = left;
+        rightAvail = right;
+
+        this.name = name;
+    }
+
     public Ghost(double xFactor, double yFactor, BufferedImage up1, BufferedImage down1, BufferedImage left1,
             BufferedImage right1, BufferedImage up2, BufferedImage down2, BufferedImage left2, BufferedImage right2,
-            boolean up, boolean down, boolean left, boolean right) {
+            boolean up, boolean down, boolean left, boolean right, String name) {
 
         initial_position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() * xFactor / 2),
                 (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * yFactor / 2));
@@ -60,6 +88,8 @@ public class Ghost {
         downAvail = down;
         leftAvail = left;
         rightAvail = right;
+
+        this.name = name;
     }
 
     public void frightened() {
