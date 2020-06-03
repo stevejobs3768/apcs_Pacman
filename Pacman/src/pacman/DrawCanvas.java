@@ -16,30 +16,32 @@ public class DrawCanvas extends JPanel {
     public static final int COUNTER_MAX = 100;
     // how close to an intersection do you have to be to be "at" that intersection
     private static final int THRESHOLD = 4;
+    private final int tileSize = 22;
 
     private final Board board = new Board();
     private final Assets assets = GraphicsOptions.assets; // class containing all images
     private final Cherry cherry = new Cherry();
     private final Player player = new Player();
-    private final Ghost red = new Ghost(1, 0.825, assets.image_red_up_body1, assets.image_red_down_body1,
+    private final Ghost red = new Ghost(307, 323, assets.image_red_up_body1, assets.image_red_down_body1,
             assets.image_red_left_body1, assets.image_red_right_body1, assets.image_red_up_body2,
             assets.image_red_down_body2, assets.image_red_left_body2, assets.image_red_right_body2, false, false, true,
-            true);
+            true, "red");
 
-    private final Ghost pink = new Ghost(1, 0.985, assets.image_pink_up_body1, assets.image_pink_down_body1,
+    private final Ghost pink = new Ghost(307, 388, assets.image_pink_up_body1, assets.image_pink_down_body1,
             assets.image_pink_left_body1, assets.image_pink_right_body1, assets.image_pink_up_body2,
             assets.image_pink_down_body2, assets.image_pink_left_body2, assets.image_pink_right_body2, true, false,
-            false, false);
+            false, false, "pink");
 
-    private final Ghost cyan = new Ghost(0.88, 0.985, assets.image_cyan_up_body1, assets.image_cyan_down_body1,
+    private final Ghost cyan = new Ghost(264, 388, assets.image_cyan_up_body1, assets.image_cyan_down_body1,
             assets.image_cyan_left_body1, assets.image_cyan_right_body1, assets.image_cyan_up_body2,
             assets.image_cyan_down_body2, assets.image_cyan_left_body2, assets.image_cyan_right_body2, false, false,
-            false, true);
+            false, true, "cyan");
 
-    private final Ghost yellow = new Ghost(1.12, 0.985, assets.image_yellow_up_body1, assets.image_yellow_down_body1,
+    private final Ghost yellow = new Ghost(350, 388, assets.image_yellow_up_body1, assets.image_yellow_down_body1,
             assets.image_yellow_left_body1, assets.image_yellow_right_body1, assets.image_yellow_up_body2,
             assets.image_yellow_down_body2, assets.image_yellow_left_body2, assets.image_yellow_right_body2, false,
-            false, true, false);
+            false, true, false, "yellow");
+
 
     private int attemptedState = 0;
     private int counter = 0;
@@ -100,13 +102,60 @@ public class DrawCanvas extends JPanel {
 //--------------------------------------------------------------------------------------------
 
 //PINK DIRECTION
-double pinkX = pink.position.getX();
-double pinkY = pink.position.getY();
-double pinkSlope;
+double pinkX = playerX;// pink.position.getX();
+double pinkY = playerY;// pink.position.getY();
 
-pinkState = 1;//pink.state();
-cyanState = 1;//cyan.state();
-yellowState = 1;//yellow.state();
+switch (pink.state){
+    case 1:
+        pinkX -= 4*tileSize;
+        pinkY -= 4*tileSize;
+        break;
+    case 2:
+        pinkY += 2*tileSize;
+        break;
+    case 3:
+        pinkX -= 2*tileSize;
+        break;
+    case 4:
+        pinkX += 2*tileSize;
+        break;
+}
+
+
+pinkState = target(pink, pinkX, pinkY);//pink.state();
+
+
+double cyanX = playerX;// pink.position.getX();
+double cyanY = playerY;// pink.position.getY();
+
+switch (cyan.state){
+    case 1:
+        cyanX -= 2*tileSize;
+        cyanY -= 2*tileSize;
+        break;
+    case 2:
+        cyanY += 2*tileSize;
+        break;
+    case 3:
+        cyanX -= 2*tileSize;
+        break;
+    case 4:
+        cyanX += 2*tileSize;
+        break;
+}
+
+cyanX += cyanX - red.position.getX();
+cyanY += cyanY - red.position.getY();
+cyanState = target(cyan, cyanX, cyanY);//pink.state();
+
+double yellowX = playerX;
+double yellowY = playerY;
+
+if(Math.sqrt(Math.pow(yellow.position.getX() - yellowX, 2) + Math.pow(yellow.position.getY() - yellowY, 2)) < 8*tileSize){
+    yellowX = 35;
+    yellowY = 715;
+}
+yellowState = target(yellow, yellowX, yellowY);
 //-----------------------------------------------------------------------------------------------
         
         //System.out.println(red.getSlope(playerX, playerY));
@@ -206,6 +255,18 @@ yellowState = 1;//yellow.state();
     }
 
     public int target(Ghost ghost, double playerX, double playerY){
+        if (ghost.position.getY() < 390 && ghost.position.getY() > 328 && ghost.position.getX() < 311
+                && ghost.position.getX() > 304 && ghost.position.getY() != 323) {
+            return 1;
+        } else if (ghost.position.getY() > 380 && ghost.position.getY() < 395 && ghost.position.getX() > 262
+                && ghost.position.getX() < 360) {
+            if (ghost.name.equals("cyan")) {
+                return 4;
+            } else if (ghost.name.equals("yellow")) {
+                return 3;
+            }
+        }
+        
         if(Math.abs(ghost.getSlope(playerX, playerY)) >= 1){ // if the slope is negative (positive to human eyes) // change this to (Math.abs(<slope>) >= 1)
             //System.out.println(red.getSlope(playerX, playerY));
             if(ghost.position.getY() < playerY){ //if the ghost is higher than the player  
