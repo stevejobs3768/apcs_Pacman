@@ -11,17 +11,18 @@ public class DrawCanvas extends JPanel {
     public static final Dimension MAC_CANVAS_SIZE = new Dimension(615, 785 + 30 + 6);
     public static final Dimension WINDOWS_CANVAS_SIZE = new Dimension(615, 785 + 30 + 25);
     public static final Dimension GAME_SIZE = new Dimension(615, 785 + 30); // size of playable game window
-    public static final int PLAYER_DIMENSION = 32; // width/height of player
-    public static final int DELAY = 10; // millisecond delay between iterations of paintComponent
-    public static final int COUNTER_MAX = 100;
+    
     // how close to an intersection do you have to be to be "at" that intersection
     private static final int THRESHOLD = 4;
-    private final int tileSize = 22;
+    private final int DELAY = 10; // millisecond delay between iterations of paintComponent
+    private final int COUNTER_MAX = 100;
+    private final int TILE_SIZE = 22;
 
     private final Board board = new Board();
     private final Assets assets = GraphicsOptions.assets; // class containing all images
     private final Cherry cherry = new Cherry();
     private final Player player = new Player();
+    
     private final Ghost red = new Ghost(307, 323, assets.image_red_up_body1, assets.image_red_down_body1,
             assets.image_red_left_body1, assets.image_red_right_body1, assets.image_red_up_body2,
             assets.image_red_down_body2, assets.image_red_left_body2, assets.image_red_right_body2, false, false, true,
@@ -47,9 +48,10 @@ public class DrawCanvas extends JPanel {
     private int score = 0;
     private int cherryCount = 0;
     private int deathCount = 0;
+    
+    private int ghostsEaten = 0;
     private boolean frightenedMode = false;
     public static int frightenedCounter = 0;
-    private int ghostsEaten = 0;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -126,17 +128,17 @@ public class DrawCanvas extends JPanel {
 
         switch (pink.state) {
             case 1:
-                pinkX -= 4 * tileSize;
-                pinkY -= 4 * tileSize;
+                pinkX -= 4 * TILE_SIZE;
+                pinkY -= 4 * TILE_SIZE;
                 break;
             case 2:
-                pinkY += 2 * tileSize;
+                pinkY += 2 * TILE_SIZE;
                 break;
             case 3:
-                pinkX -= 2 * tileSize;
+                pinkX -= 2 * TILE_SIZE;
                 break;
             case 4:
-                pinkX += 2 * tileSize;
+                pinkX += 2 * TILE_SIZE;
                 break;
         }
 
@@ -147,17 +149,17 @@ public class DrawCanvas extends JPanel {
 
         switch (cyan.state) {
             case 1:
-                cyanX -= 2 * tileSize;
-                cyanY -= 2 * tileSize;
+                cyanX -= 2 * TILE_SIZE;
+                cyanY -= 2 * TILE_SIZE;
                 break;
             case 2:
-                cyanY += 2 * tileSize;
+                cyanY += 2 * TILE_SIZE;
                 break;
             case 3:
-                cyanX -= 2 * tileSize;
+                cyanX -= 2 * TILE_SIZE;
                 break;
             case 4:
-                cyanX += 2 * tileSize;
+                cyanX += 2 * TILE_SIZE;
                 break;
         }
 
@@ -169,7 +171,7 @@ public class DrawCanvas extends JPanel {
         double yellowY = playerY;
 
         if (Math.sqrt(Math.pow(yellow.position.getX() - yellowX, 2) + Math.pow(yellow.position.getY() - yellowY, 2)) < 8
-                * tileSize) {
+                * TILE_SIZE) {
             yellowX = 35;
             yellowY = 715;
         }
