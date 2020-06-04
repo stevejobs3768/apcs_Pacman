@@ -14,7 +14,7 @@ public class Cherry {
     private final Point position = new Point((int) (DrawCanvas.GAME_SIZE.getWidth() / 2),
             (int) ((DrawCanvas.GAME_SIZE.getHeight() - 30) * 1.165 / 2)); // spawn position of cherries
     
-    private boolean showCherry = false;
+    public boolean showCherry = false;
 
     public boolean draw(Graphics g, boolean state, Point player_position, DrawCanvas canvas) {
         if (showCherry) {

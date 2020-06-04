@@ -42,13 +42,13 @@ public class DrawCanvas extends JPanel {
             assets.image_yellow_down_body2, assets.image_yellow_left_body2, assets.image_yellow_right_body2, false,
             false, true, false, "yellow");
 
-
     private int attemptedState = 0;
     private int counter = 0;
     private int score = 0;
     private int cherryCount = 0;
     private int deathCount = 0;
     private boolean frightenedMode = false;
+    public static int frightenedCounter = 0;
     private int ghostsEaten = 0;
 
     @Override
@@ -61,6 +61,24 @@ public class DrawCanvas extends JPanel {
         if (counter > COUNTER_MAX) {
             counter = 0;
             attemptedState = 0;
+        }
+
+        if (frightenedMode) {
+            frightenedCounter++;
+        }
+
+        if (frightenedCounter > 200) {
+            red.stopFrightened();
+            pink.stopFrightened();
+            cyan.stopFrightened();
+            yellow.stopFrightened();
+            frightenedMode = false;
+            frightenedCounter = 0;
+        } else if (frightenedCounter > 150) {
+            red.endFrightened();
+            pink.endFrightened();
+            cyan.endFrightened();
+            yellow.endFrightened();
         }
 
         player.reset();
@@ -79,6 +97,10 @@ public class DrawCanvas extends JPanel {
         intersections(board.leftPoints, 3);
         intersections(board.rightPoints, 4);
 
+        if (frightenedMode) {
+            confirmFrightenedPositions();
+        }
+
         dots(g);
 
         if (cherry.draw(g, player.state > 0, player.position, this)) {
@@ -88,8 +110,6 @@ public class DrawCanvas extends JPanel {
 
         player.confirmPosition(attemptedState);
 
-        // TODO: Add actual tracking code
-
         int redState = 0;
         int pinkState = 0;
         int cyanState = 0;
@@ -97,77 +117,73 @@ public class DrawCanvas extends JPanel {
 
         double playerX = player.position.getX();
         double playerY = player.position.getY();
-        
+
         redState = target(red, playerX, playerY);
-        
-       
-//--------------------------------------------------------------------------------------------
 
-//PINK DIRECTION
-double pinkX = playerX;// pink.position.getX();
-double pinkY = playerY;// pink.position.getY();
+        // PINK DIRECTION
+        double pinkX = playerX;
+        double pinkY = playerY;
 
-switch (pink.state){
-    case 1:
-        pinkX -= 4*tileSize;
-        pinkY -= 4*tileSize;
-        break;
-    case 2:
-        pinkY += 2*tileSize;
-        break;
-    case 3:
-        pinkX -= 2*tileSize;
-        break;
-    case 4:
-        pinkX += 2*tileSize;
-        break;
-}
+        switch (pink.state) {
+            case 1:
+                pinkX -= 4 * tileSize;
+                pinkY -= 4 * tileSize;
+                break;
+            case 2:
+                pinkY += 2 * tileSize;
+                break;
+            case 3:
+                pinkX -= 2 * tileSize;
+                break;
+            case 4:
+                pinkX += 2 * tileSize;
+                break;
+        }
 
+        pinkState = target(pink, pinkX, pinkY);
 
-pinkState = target(pink, pinkX, pinkY);//pink.state();
+        double cyanX = playerX;
+        double cyanY = playerY;
 
+        switch (cyan.state) {
+            case 1:
+                cyanX -= 2 * tileSize;
+                cyanY -= 2 * tileSize;
+                break;
+            case 2:
+                cyanY += 2 * tileSize;
+                break;
+            case 3:
+                cyanX -= 2 * tileSize;
+                break;
+            case 4:
+                cyanX += 2 * tileSize;
+                break;
+        }
 
-double cyanX = playerX;// pink.position.getX();
-double cyanY = playerY;// pink.position.getY();
+        cyanX += cyanX - red.position.getX();
+        cyanY += cyanY - red.position.getY();
+        cyanState = target(cyan, cyanX, cyanY);
 
-switch (cyan.state){
-    case 1:
-        cyanX -= 2*tileSize;
-        cyanY -= 2*tileSize;
-        break;
-    case 2:
-        cyanY += 2*tileSize;
-        break;
-    case 3:
-        cyanX -= 2*tileSize;
-        break;
-    case 4:
-        cyanX += 2*tileSize;
-        break;
-}
+        double yellowX = playerX;
+        double yellowY = playerY;
 
-cyanX += cyanX - red.position.getX();
-cyanY += cyanY - red.position.getY();
-cyanState = target(cyan, cyanX, cyanY);//pink.state();
+        if (Math.sqrt(Math.pow(yellow.position.getX() - yellowX, 2) + Math.pow(yellow.position.getY() - yellowY, 2)) < 8
+                * tileSize) {
+            yellowX = 35;
+            yellowY = 715;
+        }
+        yellowState = target(yellow, yellowX, yellowY);
 
-double yellowX = playerX;
-double yellowY = playerY;
+        red.confirmPosition();
+        pink.confirmPosition();
+        cyan.confirmPosition();
+        yellow.confirmPosition();
 
-if(Math.sqrt(Math.pow(yellow.position.getX() - yellowX, 2) + Math.pow(yellow.position.getY() - yellowY, 2)) < 8*tileSize){
-    yellowX = 35;
-    yellowY = 715;
-}
-yellowState = target(yellow, yellowX, yellowY);
-//-----------------------------------------------------------------------------------------------
-        
-        //System.out.println(red.getSlope(playerX, playerY));
-
-        // System.out.println("" + redState + pinkState + cyanState + yellowState);
-
-        red.confirmPosition(redState);
-        pink.confirmPosition(pinkState);
-        cyan.confirmPosition(cyanState);
-        yellow.confirmPosition(yellowState);
+        red.move(redState);
+        pink.move(pinkState);
+        cyan.move(cyanState);
+        yellow.move(yellowState);
 
         checkRestart();
 
@@ -210,13 +226,29 @@ yellowState = target(yellow, yellowX, yellowY);
         repaint();
     }
 
+    private void confirmFrightenedPositions() {
+        if (red.frightened) {
+            red.confirmPosition();
+        }
+        if (pink.frightened) {
+            pink.confirmPosition();
+        }
+        if (cyan.frightened) {
+            cyan.confirmPosition();
+        }
+        if (yellow.frightened) {
+            yellow.confirmPosition();
+        }
+    }
+
     public void exitGame(Graphics2D g2) {
-        final int fontSize = 50;
+        final int fontSize = 25;
+        cherry.showCherry = false;
         g2.setFont(assets.pacmanFont.deriveFont(Font.PLAIN, fontSize));
         FontMetrics fontMetrics = g2.getFontMetrics();
         g2.setColor(Color.red);
         g2.drawString("GAME OVER", (int) (GAME_SIZE.getWidth() - fontMetrics.stringWidth("GAME OVER")) / 2,
-                (int) (GAME_SIZE.getHeight() - fontSize / 2 + 30) / 2);
+                (int) (GAME_SIZE.getHeight() - fontSize / 2 + 130) / 2);
 
         if (deathCount > 0) {
             try {
@@ -239,15 +271,45 @@ yellowState = target(yellow, yellowX, yellowY);
             cyan.restart();
             yellow.restart();
         } else if (inRange(player.position, red.position, 10)) {
-            red.restart();
             if (!red.frightened) {
                 player.restart();
                 pink.restart();
                 cyan.restart();
                 yellow.restart();
             } else {
-                score += 20 + 10 * (int) Math.pow(2, ghostsEaten);
+                score += 10 * (int) Math.pow(2, ghostsEaten + 1);
             }
+            red.restart();
+        } else if (inRange(player.position, pink.position, 10)) {
+            if (!pink.frightened) {
+                player.restart();
+                red.restart();
+                cyan.restart();
+                yellow.restart();
+            } else {
+                score += 10 * (int) Math.pow(2, ghostsEaten + 1);
+            }
+            pink.restart();
+        } else if (inRange(player.position, cyan.position, 10)) {
+            if (!cyan.frightened) {
+                player.restart();
+                red.restart();
+                pink.restart();
+                yellow.restart();
+            } else {
+                score += 10 * (int) Math.pow(2, ghostsEaten + 1);
+            }
+            cyan.restart();
+        } else if (inRange(player.position, yellow.position, 10)) {
+            if (!yellow.frightened) {
+                player.restart();
+                red.restart();
+                pink.restart();
+                cyan.restart();
+            } else {
+                score += 10 * (int) Math.pow(2, ghostsEaten + 1);
+            }
+            yellow.restart();
         }
     }
 
@@ -272,6 +334,7 @@ yellowState = target(yellow, yellowX, yellowY);
                     score += 5;
                     board.hiddenDots.add(coords);
                     frightenedMode = true;
+                    frightenedCounter = 0;
                     red.frightened();
                     pink.frightened();
                     cyan.frightened();
@@ -283,7 +346,7 @@ yellowState = target(yellow, yellowX, yellowY);
         board.checkReset();
     }
 
-    public int target(Ghost ghost, double playerX, double playerY){
+    public int target(Ghost ghost, double playerX, double playerY) {
         if (ghost.position.getY() < 390 && ghost.position.getY() > 328 && ghost.position.getX() < 311
                 && ghost.position.getX() > 304 && ghost.position.getY() != 323) {
             return 1;
@@ -295,79 +358,68 @@ yellowState = target(yellow, yellowX, yellowY);
                 return 3;
             }
         }
-        
-        if(Math.abs(ghost.getSlope(playerX, playerY)) >= 1){ // if the slope is negative (positive to human eyes) // change this to (Math.abs(<slope>) >= 1)
-            //System.out.println(red.getSlope(playerX, playerY));
-            if(ghost.position.getY() < playerY){ //if the ghost is higher than the player  
-                if(ghost.downAvail){ // not detecting that this is available
-                    return 2; 
-                    //System.out.println("down available");
-                }else if(ghost.rightAvail){
-                    return 4;
-                } else if(ghost.upAvail){
-                    return 1;
-                }else if(ghost.leftAvail){
-                    return 3;
-                }
-                //System.out.println(">= 1 down/right");
-               
-            }
-            else if(ghost.position.getY() > playerY) { //if the ghost is lower the player
-                if(ghost.upAvail){
-                    return 1;
-                }else if(ghost.leftAvail){
-                    return 3;
-                }else if(ghost.downAvail){
-                    return 2;
-                }else if(ghost.rightAvail){
-                    return 4;
-                }
-                
-                // if neither is available, then what to do? prioritize between down and right
-                //System.out.println(">= 1 up/left");
-            }
 
-        } 
-        
-        else if(Math.abs(red.getSlope(playerX, playerY)) < 1){ // if the slope is positive // change this to (Math.abs(<slope>) < 1)
-            if(ghost.position.getX() < playerX){  // this should compare redX and playerX
-                if(ghost.rightAvail){
-                    return 4;
-                }else if(ghost.downAvail){
-                    return 2;
-                }else if(ghost.leftAvail){
-                    return 3;
-                }else if(ghost.upAvail){
-                    return 1;
+        if (!ghost.frightened) {
+            if (Math.abs(ghost.getSlope(playerX, playerY)) >= 1) { // if the slope is negative (positive to human eyes)
+                if (ghost.position.getY() < playerY) { // if the ghost is higher than the player
+                    if (ghost.downAvail) {
+                        return 2;
+                    } else if (ghost.rightAvail) {
+                        return 4;
+                    } else if (ghost.upAvail) {
+                        return 1;
+                    } else if (ghost.leftAvail) {
+                        return 3;
+                    }
+                } else if (ghost.position.getY() > playerY) { // if the ghost is lower the player
+                    if (ghost.upAvail) {
+                        return 1;
+                    } else if (ghost.leftAvail) {
+                        return 3;
+                    } else if (ghost.downAvail) {
+                        return 2;
+                    } else if (ghost.rightAvail) {
+                        return 4;
+                    }
                 }
-                //System.out.println("down & right");
-            }
-            else if(ghost.position.getX() > playerX) { //if the ghost is lower the player // this should compare redX and playerX
-                if(ghost.leftAvail){
-                    return 3;
-                }else if(ghost.upAvail){
-                    return 1;
-                }else if(ghost.rightAvail){
-                    return 4;
-                }else if(ghost.downAvail){
-                    return 2;
+            } else if (Math.abs(red.getSlope(playerX, playerY)) < 1) { // if the slope is positive
+                if (ghost.position.getX() < playerX) {
+                    if (ghost.rightAvail) {
+                        return 4;
+                    } else if (ghost.downAvail) {
+                        return 2;
+                    } else if (ghost.leftAvail) {
+                        return 3;
+                    } else if (ghost.upAvail) {
+                        return 1;
+                    }
+                } else if (ghost.position.getX() > playerX) { // if the ghost is lower the player
+                    if (ghost.leftAvail) {
+                        return 3;
+                    } else if (ghost.upAvail) {
+                        return 1;
+                    } else if (ghost.rightAvail) {
+                        return 4;
+                    } else if (ghost.downAvail) {
+                        return 2;
+                    }
                 }
-                //System.out.println("up & left");
+            } else if (ghost.position.getX() == playerX) {
+                if (playerY < ghost.position.getY() && ghost.upAvail) {
+                    return 1;
+                } else if (playerY > ghost.position.getY() && ghost.downAvail) {
+                    return 2;
+                } else if (ghost.leftAvail) {
+                    return 3;
+                } else {
+                    return 4;
+                }
             }
-            
-        }
-
-        else if(ghost.position.getX() == playerX){
-            if(playerY < ghost.position.getY() && ghost.upAvail){
-                return 1;
-            }else if(playerY > ghost.position.getY() && ghost.downAvail){
-                return 2;
-            }else if(ghost.leftAvail){
-                return 3;
-            }else{
-                return 4;
+        } else {
+            if (!((ghost.state == 1 && ghost.upAvail) || (ghost.state == 2 && ghost.downAvail)
+                    || (ghost.state == 3 && ghost.leftAvail) || (ghost.state == 4 && ghost.rightAvail))) {
+                return (int) (Math.random() * 4 + 1);
             }
-
         }
 
         return 0;

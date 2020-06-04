@@ -21,6 +21,8 @@ public class Ghost {
 
     private final BufferedImage frightened1 = GraphicsOptions.resize(GraphicsOptions.assets.image_frightened_body1, dimension, dimension);
     private final BufferedImage frightened2 = GraphicsOptions.resize(GraphicsOptions.assets.image_frightened_body2, dimension, dimension);
+    private final BufferedImage endFrightened1 = GraphicsOptions.resize(GraphicsOptions.assets.image_end_frightened_body1, dimension, dimension);
+    private final BufferedImage endFrightened2 = GraphicsOptions.resize(GraphicsOptions.assets.image_end_frightened_body2, dimension, dimension);
 
     private BufferedImage current;
     private boolean image1 = false;
@@ -33,6 +35,8 @@ public class Ghost {
     public String name;
 
     public boolean frightened = false;
+    public boolean endFrightened = false;
+    public boolean endFrightenedImage = false;
 
     private int[] currentCoords = { 0, 0 };
 
@@ -93,17 +97,25 @@ public class Ghost {
     }
 
     public void frightened() {
+        stopFrightened();
         frightened = true;
     }
 
-    public void frightened() {
-        frightened = true;
+    public void endFrightened() {
+        endFrightened = true;
+    }
+    
+    public void stopFrightened() {
+        frightened = false;
+        endFrightened = false;
+        endFrightenedImage = false;
     }
 
     public void restart() {
         position.setLocation(initial_position);
         currentCoords = new int[2];
         frightened = false;
+        endFrightened = false;
         reset();
         state = 0;
     }
@@ -143,28 +155,7 @@ public class Ghost {
         return (playerPositionY - position.getY())/(playerPositionX- position.getX());
     }
 
-    /* public int state(){
-        boolean check = false;
-
-        while(check != true){
-            int state = (int) (Math.random()*4+1);
-            if(state == 1 && upAvail){
-                check = true;
-                return state;
-            }else if(state == 2 && downAvail){
-                check = true;
-                return state;
-            }else if(state == 3 && leftAvail){
-                check = true;
-                return state;
-            }else if(state == 4 && rightAvail){
-                check = true;
-                return state;
-            } 
-        }
-        return 1;
-    } */
-    public void confirmPosition(int attemptedState) {
+    public void confirmPosition() {
         if (!leftAvail && !rightAvail && !upAvail && !downAvail) {
             if (state == 1 || state == 2) {
                 upAvail = true;
@@ -174,7 +165,9 @@ public class Ghost {
                 rightAvail = true;
             }
         }
+    }
 
+    public void move(int attemptedState) {
         if (attemptedState == 1 && upAvail) { // if user wants to go up and up is available
             state = attemptedState;
         } else if (attemptedState == 2 && downAvail) { // same for down
@@ -188,7 +181,6 @@ public class Ghost {
         if (state == 1 && upAvail) {
             position.translate(0, -1 * shift);
         } else if (state == 2 && downAvail) {
-            // System.out.println(shift);
             position.translate(0, shift);
         } else if (state == 3 && leftAvail) {
             position.translate(-1 * shift, 0);
@@ -206,17 +198,27 @@ public class Ghost {
         } else if (position.getX() < 0) {
             position.setLocation(DrawCanvas.GAME_SIZE.getWidth(), position.getY());
         }
-
-        // System.out.println(upAvail + " " + downAvail + " " + leftAvail + " " +
-        // rightAvail);
     }
 
     public void draw(Graphics g, DrawCanvas canvas) {
-        if (frightened) {
+        if (endFrightened && DrawCanvas.frightenedCounter % 4 == 0) {
+            endFrightenedImage = !endFrightenedImage;
+        }
+        if (endFrightenedImage && frightened) {
             if (image1) {
-                current = frightened1;
+                current = endFrightened2;
+                image1 = false;
             } else {
+                current = endFrightened1;
+                image1 = true;
+            }
+        } else if (frightened) {
+            if (image1) {
                 current = frightened2;
+                image1 = false;
+            } else {
+                current = frightened1;
+                image1 = true;
             }
         } else {
             if (image1) {
